@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Oportunidades — Desafio</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0f1923;
+    --surface:  #182230;
+    --surface2: #1e2d3d;
+    --border:   #2a3f55;
+    --text:     #dce8f5;
+    --muted:    #7a99b8;
+    --blue:     #4a9edd;
+    --green:    #3dd68c;
+    --red:      #e05c5c;
+    --yellow:   #f0b429;
+    --radius-card: 14px;
+    --radius-input: 9px;
+  }
+
+  html { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 15px; }
+  body { background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── HEADER ─────────────────────────────────────────── */
+  #header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: #0b1520;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 14px;
+    padding: 0 28px; height: 60px;
+  }
+  #header img { height: 36px; object-fit: contain; }
+  #header h1 { font-size: 1rem; font-weight: 600; color: var(--text); opacity: .9; letter-spacing: .3px; }
+
+  /* ── MAIN ────────────────────────────────────────────── */
+  #app { padding: 80px 16px 48px; max-width: 860px; margin: 0 auto; }
+
+  /* ── SCENARIO TABS ───────────────────────────────────── */
+  #scenario-tabs {
+    display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .s-tab {
+    padding: 9px 20px; border-radius: 9px; border: 1.5px solid var(--border);
+    background: var(--surface); color: var(--muted); cursor: pointer;
+    font-size: .88rem; font-weight: 600; transition: all .18s;
+  }
+  .s-tab:hover { border-color: var(--blue); color: var(--blue); }
+  .s-tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+  /* ── STEP INDICATOR ──────────────────────────────────── */
+  #step-indicator {
+    display: flex; align-items: center; margin-bottom: 28px; gap: 0;
+  }
+  .step-node {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    flex: 1; position: relative; cursor: default;
+  }
+  .step-node.clickable { cursor: pointer; }
+  .step-circle {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid var(--border); background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem; font-weight: 700; color: var(--muted);
+    transition: all .2s; position: relative; z-index: 2;
+  }
+  .step-node.active .step-circle { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .step-node.done .step-circle { border-color: var(--green); background: var(--green); color: #fff; }
+  .step-label { font-size: .72rem; color: var(--muted); text-align: center; line-height: 1.3; }
+  .step-node.active .step-label { color: var(--blue); font-weight: 600; }
+  .step-node.done .step-label { color: var(--green); }
+  .step-connector {
+    flex: 1; height: 2px; background: var(--border); margin-bottom: 20px; transition: background .2s;
+  }
+  .step-connector.done { background: var(--green); }
+
+  /* ── CARDS ───────────────────────────────────────────── */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-card); padding: 24px 28px; margin-bottom: 18px;
+  }
+  .card-title {
+    font-size: 1rem; font-weight: 700; color: var(--text);
+    margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
+  }
+  .card-title .badge {
+    font-size: .7rem; padding: 3px 10px; border-radius: 20px;
+    background: var(--surface2); color: var(--muted); font-weight: 600;
+  }
+
+  /* ── FORM ────────────────────────────────────────────── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid.g3 { grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 600px) {
+    .form-grid, .form-grid.g3 { grid-template-columns: 1fr; }
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-size: .78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+  input[type=text], input[type=number] {
+    background: var(--surface2); border: 1.5px solid var(--border);
+    border-radius: var(--radius-input); padding: 10px 14px;
+    color: var(--text); font-size: .93rem; outline: none;
+    transition: border-color .15s; font-family: inherit;
+    width: 100%;
+  }
+  input[type=text]:focus, input[type=number]:focus { border-color: var(--blue); }
+  input[readonly] { opacity: .65; cursor: default; }
+  input[type=number]::-webkit-inner-spin-button { opacity: .5; }
+
+  /* ── TOGGLE ──────────────────────────────────────────── */
+  .toggle-group {
+    display: flex; background: var(--surface2); border-radius: var(--radius-input);
+    border: 1.5px solid var(--border); overflow: hidden;
+  }
+  .toggle-btn {
+    flex: 1; padding: 9px 10px; background: transparent; border: none;
+    color: var(--muted); font-size: .82rem; font-weight: 600; cursor: pointer;
+    transition: all .15s; font-family: inherit;
+  }
+  .toggle-btn.active { background: var(--blue); color: #fff; }
+
+  /* ── READONLY BLOCK ──────────────────────────────────── */
+  .calc-block {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-input); padding: 12px 16px;
+    display: flex; flex-direction: column; gap: 8px; margin-top: 4px;
+  }
+  .calc-row { display: flex; justify-content: space-between; align-items: center; }
+  .calc-row .cl { font-size: .8rem; color: var(--muted); }
+  .calc-row .cv { font-size: .93rem; font-weight: 700; color: var(--green); }
+  .calc-row .cv.neg { color: var(--red); }
+
+  /* ── SLIDER ──────────────────────────────────────────── */
+  .slider-field { display: flex; flex-direction: column; gap: 8px; }
+  .slider-header { display: flex; justify-content: space-between; align-items: center; }
+  .slider-title { font-size: .85rem; font-weight: 600; color: var(--text); }
+  .slider-val {
+    background: var(--blue); color: #fff; font-weight: 700;
+    font-size: .8rem; padding: 2px 10px; border-radius: 20px; min-width: 34px; text-align: center;
+  }
+  .slider-extremes { display: flex; justify-content: space-between; }
+  .slider-extremes span { font-size: .72rem; color: var(--muted); max-width: 46%; line-height: 1.3; }
+  .slider-extremes span:last-child { text-align: right; }
+  input[type=range] {
+    width: 100%; accent-color: var(--blue);
+    height: 6px; cursor: pointer; border-radius: 3px;
+  }
+  .weight-badge {
+    font-size: .7rem; padding: 2px 9px; border-radius: 20px;
+    background: var(--surface2); color: var(--muted); font-weight: 700; border: 1px solid var(--border);
+  }
+
+  /* ── YES/NO BUTTONS ──────────────────────────────────── */
+  .yn-group { display: flex; gap: 10px; }
+  .yn-btn {
+    padding: 9px 28px; border-radius: var(--radius-input); border: 1.5px solid var(--border);
+    background: var(--surface2); color: var(--muted); cursor: pointer;
+    font-weight: 700; font-size: .88rem; transition: all .15s; font-family: inherit;
+  }
+  .yn-btn.yes.active { background: var(--green); border-color: var(--green); color: #fff; }
+  .yn-btn.no.active  { background: var(--red);   border-color: var(--red);   color: #fff; }
+  .yn-btn:hover { opacity: .85; }
+
+  /* ── RESULT GRID ─────────────────────────────────────── */
+  .result-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px;
+  }
+  @media (max-width: 560px) { .result-grid { grid-template-columns: 1fr 1fr; } }
+  .metric-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-card); padding: 16px;
+    display: flex; flex-direction: column; gap: 4px; align-items: flex-start;
+  }
+  .metric-label { font-size: .72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .4px; }
+  .metric-value { font-size: 1.25rem; font-weight: 800; }
+  .metric-value.pos { color: var(--green); }
+  .metric-value.neg { color: var(--red); }
+  .metric-value.neutral { color: var(--blue); }
+
+  /* ── COMPARE ─────────────────────────────────────────── */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+  @media (max-width: 480px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-card); padding: 18px;
+  }
+  .compare-card.highlight { border-color: var(--green); }
+  .compare-tag {
+    font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+    color: var(--muted); margin-bottom: 8px;
+  }
+  .compare-tag.new { color: var(--green); }
+  .compare-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+  .compare-brand { font-size: .82rem; color: var(--muted); margin-bottom: 12px; }
+  .compare-row { display: flex; justify-content: space-between; font-size: .84rem; padding: 4px 0; border-bottom: 1px solid var(--border); }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row .lbl { color: var(--muted); }
+  .compare-row .val { font-weight: 700; }
+
+  /* ── SCORE BAR ───────────────────────────────────────── */
+  .score-section { margin-bottom: 18px; }
+  .score-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
+  .score-label { font-size: .82rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .4px; }
+  .score-value { font-size: 2rem; font-weight: 900; }
+  .score-bar-bg {
+    background: var(--surface2); border-radius: 8px; height: 14px; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .score-bar-fill {
+    height: 100%; border-radius: 8px; transition: width 1s cubic-bezier(.4,0,.2,1);
+    background: linear-gradient(90deg, var(--blue), var(--green));
+  }
+  .score-bar-fill.low { background: linear-gradient(90deg, var(--red), var(--yellow)); }
+  .score-zones {
+    display: flex; justify-content: space-between; margin-top: 5px;
+    font-size: .7rem; color: var(--muted);
+  }
+
+  /* ── RECOMMENDATION ──────────────────────────────────── */
+  .reco-card {
+    border-radius: var(--radius-card); padding: 20px 24px; margin-bottom: 18px;
+    border-left: 4px solid var(--green);
+    background: color-mix(in srgb, var(--green) 8%, var(--surface));
+  }
+  .reco-card.warn { border-left-color: var(--yellow); background: color-mix(in srgb, var(--yellow) 8%, var(--surface)); }
+  .reco-card.bad  { border-left-color: var(--red);   background: color-mix(in srgb, var(--red)   8%, var(--surface)); }
+  .reco-badge {
+    font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .6px;
+    margin-bottom: 6px; color: var(--green);
+  }
+  .reco-badge.warn { color: var(--yellow); }
+  .reco-badge.bad  { color: var(--red); }
+  .reco-text { font-size: .92rem; line-height: 1.6; color: var(--text); }
+
+  /* ── BUTTONS ─────────────────────────────────────────── */
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .btn {
+    padding: 11px 24px; border-radius: var(--radius-input); border: none;
+    font-size: .9rem; font-weight: 700; cursor: pointer;
+    transition: all .15s; font-family: inherit;
+  }
+  .btn-primary   { background: var(--blue);  color: #fff; }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1.5px solid var(--border); }
+  .btn-ghost     { background: transparent; color: var(--muted); border: 1.5px solid var(--border); }
+  .btn-success   { background: var(--green); color: #0a1a0f; }
+  .btn-danger    { background: var(--red);   color: #fff; }
+  .btn:hover { opacity: .85; transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn-icon { margin-right: 6px; }
+
+  /* ── INFO BOX ────────────────────────────────────────── */
+  .info-box {
+    background: color-mix(in srgb, var(--blue) 10%, var(--surface2));
+    border: 1px solid color-mix(in srgb, var(--blue) 30%, var(--border));
+    border-radius: var(--radius-input); padding: 12px 16px;
+    font-size: .82rem; color: var(--muted); line-height: 1.55;
+  }
+  .info-box strong { color: var(--blue); }
+
+  /* ── LTV GRID ────────────────────────────────────────── */
+  .ltv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 480px) { .ltv-grid { grid-template-columns: 1fr; } }
+  .ltv-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-input); padding: 14px;
+  }
+  .ltv-card-title { font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+
+  /* ── STEP WRAPPER ────────────────────────────────────── */
+  .step-view { display: none; }
+  .step-view.active { display: block; }
+
+  /* ── DIVIDER ─────────────────────────────────────────── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <img src="assets/logo-white.png" alt="Desafio" onerror="this.style.display='none'">
+  <h1>Calculadora de Oportunidades</h1>
+</header>
+
+<main id="app">
+
+  <!-- SCENARIO TABS -->
+  <div id="scenario-tabs">
+    <button class="s-tab active" data-scenario="cross">Cross-sell</button>
+    <button class="s-tab" data-scenario="up">Up-sell</button>
+    <button class="s-tab" data-scenario="troca">Troca de marca</button>
+  </div>
+
+  <!-- STEP INDICATOR -->
+  <div id="step-indicator">
+    <div class="step-node" data-step="1">
+      <div class="step-circle">1</div>
+      <div class="step-label">Item<br>atual</div>
+    </div>
+    <div class="step-connector" id="conn-1-2"></div>
+    <div class="step-node" data-step="2">
+      <div class="step-circle">2</div>
+      <div class="step-label">Novo<br>item</div>
+    </div>
+    <div class="step-connector" id="conn-2-3"></div>
+    <div class="step-node" data-step="3">
+      <div class="step-circle">3</div>
+      <div class="step-label">Fatores de<br>viabilidade</div>
+    </div>
+    <div class="step-connector" id="conn-3-4"></div>
+    <div class="step-node" data-step="4">
+      <div class="step-circle">4</div>
+      <div class="step-label">Resultado</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 1 — Item atual
+  ══════════════════════════════════════════════════════ -->
+  <div class="step-view active" id="step-1">
+    <div class="card">
+      <div class="card-title">Item atual <span class="badge">Produto de referência</span></div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Nome do item</label>
+          <input type="text" id="a-name" placeholder="Ex: Lubrificante Industrial X">
+        </div>
+        <div class="field">
+          <label>Marca</label>
+          <input type="text" id="a-brand" placeholder="Ex: WD-40">
+        </div>
+        <div class="field">
+          <label>Preço de custo (R$)</label>
+          <input type="number" id="a-cost" placeholder="0,00" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label>Calcular por</label>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="a-toggle-sale" onclick="setToggle('a','sale')">Preço de venda</button>
+            <button class="toggle-btn" id="a-toggle-margin" onclick="setToggle('a','margin')">Margem (%)</button>
+          </div>
+        </div>
+        <div class="field" id="a-sale-field">
+          <label>Preço de venda (R$)</label>
+          <input type="number" id="a-sale" placeholder="0,00" min="0" step="0.01">
+        </div>
+        <div class="field" id="a-margin-field" style="display:none">
+          <label>Margem (%)</label>
+          <input type="number" id="a-margin-pct" placeholder="0" min="0" max="100" step="0.1">
+        </div>
+        <div class="field">
+          <label>Volume / mês (un.)</label>
+          <input type="number" id="a-vol" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="calc-block" id="a-calc">
+        <div class="calc-row"><span class="cl">Preço de venda</span><span class="cv" id="a-calc-sale">—</span></div>
+        <div class="calc-row"><span class="cl">Margem</span><span class="cv" id="a-calc-margin">—</span></div>
+        <div class="calc-row"><span class="cl">Receita mensal estimada</span><span class="cv" id="a-calc-rev">—</span></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goStep(2)">Próximo →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 2 — Novo item
+  ══════════════════════════════════════════════════════ -->
+  <div class="step-view" id="step-2">
+    <div class="card">
+      <div class="card-title">Novo item <span class="badge">Produto proposto</span></div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Nome do item</label>
+          <input type="text" id="b-name" placeholder="Ex: Lubrificante Premium Z">
+        </div>
+        <div class="field">
+          <label>Marca</label>
+          <input type="text" id="b-brand" placeholder="Ex: 3M">
+        </div>
+        <div class="field">
+          <label>Preço de custo (R$)</label>
+          <input type="number" id="b-cost" placeholder="0,00" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label>Calcular por</label>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="b-toggle-sale" onclick="setToggle('b','sale')">Preço de venda</button>
+            <button class="toggle-btn" id="b-toggle-margin" onclick="setToggle('b','margin')">Margem (%)</button>
+          </div>
+        </div>
+        <div class="field" id="b-sale-field">
+          <label>Preço de venda (R$)</label>
+          <input type="number" id="b-sale" placeholder="0,00" min="0" step="0.01">
+        </div>
+        <div class="field" id="b-margin-field" style="display:none">
+          <label>Margem (%)</label>
+          <input type="number" id="b-margin-pct" placeholder="0" min="0" max="100" step="0.1">
+        </div>
+        <div class="field">
+          <label>Volume / mês (un.)</label>
+          <input type="number" id="b-vol" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="calc-block">
+        <div class="calc-row"><span class="cl">Preço de venda</span><span class="cv" id="b-calc-sale">—</span></div>
+        <div class="calc-row"><span class="cl">Margem</span><span class="cv" id="b-calc-margin">—</span></div>
+        <div class="calc-row"><span class="cl">Receita mensal estimada</span><span class="cv" id="b-calc-rev">—</span></div>
+      </div>
+    </div>
+
+    <!-- CROSS-SELL: complementarity -->
+    <div class="card" id="block-cross" style="display:none">
+      <div class="card-title">Taxa de complementaridade <span class="badge">Cross-sell</span></div>
+      <p class="info-box" style="margin-bottom:16px">
+        <strong>Qual é a probabilidade</strong> de que o cliente que compra o <strong id="cross-a-name">Produto A</strong>
+        também compre o <strong id="cross-b-name">Produto B</strong>?
+      </p>
+      <div class="slider-field">
+        <div class="slider-header">
+          <span class="slider-title">Taxa de complementaridade</span>
+          <span class="slider-val" id="cross-rate-val">50%</span>
+        </div>
+        <input type="range" id="cross-rate" min="0" max="100" value="50" oninput="updateCrossRate()">
+        <div class="slider-extremes">
+          <span>0% — produtos independentes</span>
+          <span>100% — sempre comprados juntos</span>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="calc-block">
+        <div class="calc-row"><span class="cl">Volume base (novo item)</span><span class="cv" id="cross-vol-base">—</span></div>
+        <div class="calc-row"><span class="cl">Volume ajustado pela complementaridade</span><span class="cv" id="cross-vol-adj">—</span></div>
+      </div>
+    </div>
+
+    <!-- UP-SELL: price elasticity -->
+    <div class="card" id="block-up-elast" style="display:none">
+      <div class="card-title">Elasticidade-preço <span class="badge">Up-sell</span></div>
+      <div class="info-box" style="margin-bottom:16px">
+        <strong>Elasticidade B2B industrial (padrão −0,30):</strong> para cada 10% de aumento no preço, a demanda cai ~3%.
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Coeficiente de elasticidade</label>
+          <input type="number" id="up-elast" value="-0.30" step="0.01">
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="calc-block">
+        <div class="calc-row"><span class="cl">Variação de preço</span><span class="cv" id="up-price-var">—</span></div>
+        <div class="calc-row"><span class="cl">Impacto no volume</span><span class="cv" id="up-vol-impact">—</span></div>
+        <div class="calc-row"><span class="cl">Volume ajustado</span><span class="cv" id="up-vol-adj">—</span></div>
+      </div>
+    </div>
+
+    <!-- UP-SELL: LTV -->
+    <div class="card" id="block-up-ltv" style="display:none">
+      <div class="card-title">Lifetime Value por categoria <span class="badge">Up-sell</span></div>
+      <div class="ltv-grid">
+        <div class="ltv-card">
+          <div class="ltv-card-title">Item atual</div>
+          <div class="field" style="margin-bottom:10px">
+            <label>Gasto total (R$)</label>
+            <input type="number" id="ltv-a-total" placeholder="0,00" min="0" step="0.01" oninput="updateLTV()">
+          </div>
+          <div class="field">
+            <label>Recorrência (meses)</label>
+            <input type="number" id="ltv-a-period" placeholder="12" min="1" step="1" oninput="updateLTV()">
+          </div>
+        </div>
+        <div class="ltv-card">
+          <div class="ltv-card-title">Novo item</div>
+          <div class="field" style="margin-bottom:10px">
+            <label>Gasto total (R$)</label>
+            <input type="number" id="ltv-b-total" placeholder="0,00" min="0" step="0.01" oninput="updateLTV()">
+          </div>
+          <div class="field">
+            <label>Recorrência (meses)</label>
+            <input type="number" id="ltv-b-period" placeholder="12" min="1" step="1" oninput="updateLTV()">
+          </div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="calc-block">
+        <div class="calc-row"><span class="cl">LTV/mês — Item atual</span><span class="cv" id="ltv-a-val">—</span></div>
+        <div class="calc-row"><span class="cl">LTV/mês — Novo item</span><span class="cv" id="ltv-b-val">—</span></div>
+        <div class="calc-row"><span class="cl">Variação LTV</span><span class="cv" id="ltv-var">—</span></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goStep(1)">← Voltar</button>
+      <button class="btn btn-primary" onclick="goStep(3)">Próximo →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 3 — Fatores de viabilidade
+  ══════════════════════════════════════════════════════ -->
+  <div class="step-view" id="step-3">
+    <div class="card">
+      <div class="card-title">Fatores de viabilidade</div>
+
+      <div class="slider-field" style="margin-bottom:22px">
+        <div class="slider-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="slider-title">Aceitação pelo cliente final</span>
+            <span class="weight-badge">Peso 55%</span>
+          </div>
+          <span class="slider-val" id="f1-val">3</span>
+        </div>
+        <input type="range" id="f1" min="1" max="5" value="3" oninput="document.getElementById('f1-val').textContent=this.value">
+        <div class="slider-extremes">
+          <span>1 — produto desconhecido, alta resistência</span>
+          <span>5 — muito desejado, demanda espontânea</span>
+        </div>
+      </div>
+
+      <div class="slider-field" style="margin-bottom:22px">
+        <div class="slider-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="slider-title">Suporte técnico do fabricante</span>
+            <span class="weight-badge">Peso 30%</span>
+          </div>
+          <span class="slider-val" id="f2-val">3</span>
+        </div>
+        <input type="range" id="f2" min="1" max="5" value="3" oninput="document.getElementById('f2-val').textContent=this.value">
+        <div class="slider-extremes">
+          <span>1 — sem suporte</span>
+          <span>5 — suporte completo com treinamento e assistência</span>
+        </div>
+      </div>
+
+      <div class="slider-field" style="margin-bottom:8px">
+        <div class="slider-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="slider-title">Risco de vencimento / obsolescência</span>
+            <span class="weight-badge">Peso 15%</span>
+          </div>
+          <span class="slider-val" id="f3-val">3</span>
+        </div>
+        <input type="range" id="f3" min="1" max="5" value="3" oninput="document.getElementById('f3-val').textContent=this.value">
+        <div class="slider-extremes">
+          <span>1 — validade curta, alto risco</span>
+          <span>5 — sem prazo, ciclo de vida longo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TROCA DE MARCA: homologação -->
+    <div class="card" id="block-homo" style="display:none">
+      <div class="card-title">Homologação / certificação <span class="badge">Troca de marca</span></div>
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:14px;line-height:1.5">
+        É necessário novo processo de homologação ou certificação similar para substituir esta marca?
+      </p>
+      <div class="yn-group">
+        <button class="yn-btn yes" id="homo-yes" onclick="setHomo('yes')">Sim</button>
+        <button class="yn-btn no active" id="homo-no" onclick="setHomo('no')">Não</button>
+      </div>
+      <div id="homo-warning" style="display:none;margin-top:12px" class="info-box" style="">
+        ⚠️ <strong style="color:var(--red)">Penalidade aplicada:</strong> −20% no volume projetado e −15% no score de viabilidade.
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goStep(2)">← Voltar</button>
+      <button class="btn btn-primary" onclick="goStep(4)">Ver resultado →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       STEP 4 — Resultado
+  ══════════════════════════════════════════════════════ -->
+  <div class="step-view" id="step-4">
+
+    <!-- METRICS GRID -->
+    <div class="card">
+      <div class="card-title">Métricas do cenário</div>
+      <div class="result-grid" id="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Margem novo item</div>
+          <div class="metric-value neutral" id="r-margin">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Receita incremental/mês</div>
+          <div class="metric-value" id="r-rev-month">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Lucro incremental/mês</div>
+          <div class="metric-value" id="r-profit-month">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Receita incremental/ano</div>
+          <div class="metric-value" id="r-rev-year">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Lucro incremental/ano</div>
+          <div class="metric-value" id="r-profit-year">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Score de viabilidade</div>
+          <div class="metric-value" id="r-score">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LTV RESULT (up-sell only) -->
+    <div class="card" id="block-ltv-result" style="display:none">
+      <div class="card-title">Lifetime Value comparativo <span class="badge">Up-sell</span></div>
+      <div class="calc-block">
+        <div class="calc-row"><span class="cl">LTV/mês — Item atual</span><span class="cv" id="r-ltv-a">—</span></div>
+        <div class="calc-row"><span class="cl">LTV/mês — Novo item</span><span class="cv" id="r-ltv-b">—</span></div>
+        <div class="calc-row"><span class="cl">Variação LTV</span><span class="cv" id="r-ltv-var">—</span></div>
+      </div>
+    </div>
+
+    <!-- SCORE BAR -->
+    <div class="card score-section">
+      <div class="card-title">Score de viabilidade</div>
+      <div class="score-header">
+        <span class="score-label">Pontuação final</span>
+        <span class="score-value" id="score-big">—</span>
+      </div>
+      <div class="score-bar-bg">
+        <div class="score-bar-fill" id="score-bar" style="width:0%"></div>
+      </div>
+      <div class="score-zones">
+        <span>0 — Baixa</span>
+        <span style="text-align:center">50 — Moderada</span>
+        <span style="text-align:right">75–100 — Alta</span>
+      </div>
+    </div>
+
+    <!-- RECOMMENDATION -->
+    <div class="reco-card" id="reco-card">
+      <div class="reco-badge" id="reco-badge">—</div>
+      <div class="reco-text" id="reco-text">—</div>
+    </div>
+
+    <!-- COMPARE -->
+    <div class="card">
+      <div class="card-title">Comparativo</div>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <div class="compare-tag">Item atual</div>
+          <div class="compare-name" id="cmp-a-name">—</div>
+          <div class="compare-brand" id="cmp-a-brand">—</div>
+          <div class="compare-row"><span class="lbl">Margem</span><span class="val" id="cmp-a-margin">—</span></div>
+          <div class="compare-row"><span class="lbl">Receita/mês</span><span class="val" id="cmp-a-rev">—</span></div>
+          <div class="compare-row"><span class="lbl">Volume</span><span class="val" id="cmp-a-vol">—</span></div>
+        </div>
+        <div class="compare-card highlight">
+          <div class="compare-tag new">Novo item</div>
+          <div class="compare-name" id="cmp-b-name">—</div>
+          <div class="compare-brand" id="cmp-b-brand">—</div>
+          <div class="compare-row"><span class="lbl">Margem</span><span class="val" id="cmp-b-margin">—</span></div>
+          <div class="compare-row"><span class="lbl">Receita/mês</span><span class="val" id="cmp-b-rev">—</span></div>
+          <div class="compare-row"><span class="lbl">Volume ajustado</span><span class="val" id="cmp-b-vol">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goStep(3)">← Voltar</button>
+      <button class="btn btn-success" onclick="exportReport()"><span class="btn-icon">↓</span> Exportar relatório</button>
+      <button class="btn btn-secondary" onclick="newSimulation()">Nova simulação</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════
+let scenario  = 'cross';  // cross | up | troca
+let curStep   = 1;
+let visited   = new Set([1]);
+let homoValue = 'no';     // troca de marca homologação
+
+const toggleState = { a: 'sale', b: 'sale' };
+
+// ════════════════════════════════════════════════════════
+// UTILITY
+// ════════════════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+const num = id => parseFloat($(id).value) || 0;
+const fmt = (v, d=2) => v.toLocaleString('pt-BR', {minimumFractionDigits:d, maximumFractionDigits:d});
+const fmtR = v => 'R$ ' + fmt(v);
+const fmtP = v => fmt(v, 1) + '%';
+
+function setColorClass(el, val, threshold=0) {
+  el.classList.remove('pos','neg','neutral');
+  if (val > threshold) el.classList.add('pos');
+  else if (val < threshold) el.classList.add('neg');
+  else el.classList.add('neutral');
+}
+
+// ════════════════════════════════════════════════════════
+// SCENARIO TABS
+// ════════════════════════════════════════════════════════
+document.querySelectorAll('.s-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    scenario = btn.dataset.scenario;
+    document.querySelectorAll('.s-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    resetFlow();
+  });
+});
+
+function showScenarioBlocks() {
+  $('block-cross').style.display     = scenario === 'cross' ? '' : 'none';
+  $('block-up-elast').style.display  = scenario === 'up'    ? '' : 'none';
+  $('block-up-ltv').style.display    = scenario === 'up'    ? '' : 'none';
+  $('block-homo').style.display      = scenario === 'troca' ? '' : 'none';
+  $('block-ltv-result').style.display = scenario === 'up'   ? '' : 'none';
+}
+
+// ════════════════════════════════════════════════════════
+// STEP NAVIGATION
+// ════════════════════════════════════════════════════════
+function goStep(n) {
+  document.querySelectorAll('.step-view').forEach(v => v.classList.remove('active'));
+  $('step-'+n).classList.add('active');
+  curStep = n;
+  visited.add(n);
+  updateStepIndicator();
+  showScenarioBlocks();
+  if (n === 4) computeResult();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function updateStepIndicator() {
+  document.querySelectorAll('.step-node').forEach(node => {
+    const s = parseInt(node.dataset.step);
+    node.classList.remove('active','done','clickable');
+    if (s === curStep) node.classList.add('active');
+    else if (visited.has(s)) { node.classList.add('done','clickable'); }
+  });
+  for (let i=1;i<=3;i++) {
+    const conn = $('conn-'+i+'-'+(i+1));
+    if (conn) conn.classList.toggle('done', visited.has(i+1));
+  }
+}
+
+document.querySelectorAll('.step-node').forEach(node => {
+  node.addEventListener('click', () => {
+    const s = parseInt(node.dataset.step);
+    if (visited.has(s)) goStep(s);
+  });
+});
+
+function resetFlow() {
+  visited = new Set([1]);
+  homoValue = 'no';
+  setHomo('no');
+  goStep(1);
+}
+
+// ════════════════════════════════════════════════════════
+// TOGGLE SALE / MARGIN
+// ════════════════════════════════════════════════════════
+function setToggle(prefix, mode) {
+  toggleState[prefix] = mode;
+  $(`${prefix}-toggle-sale`).classList.toggle('active', mode==='sale');
+  $(`${prefix}-toggle-margin`).classList.toggle('active', mode==='margin');
+  $(`${prefix}-sale-field`).style.display   = mode==='sale'   ? '' : 'none';
+  $(`${prefix}-margin-field`).style.display = mode==='margin' ? '' : 'none';
+  calcItem(prefix);
+}
+
+// ════════════════════════════════════════════════════════
+// ITEM CALCULATIONS
+// ════════════════════════════════════════════════════════
+function calcItem(p) {
+  const cost = num(`${p}-cost`);
+  let sale, marginPct;
+
+  if (toggleState[p] === 'sale') {
+    sale = num(`${p}-sale`);
+    marginPct = sale > 0 ? ((sale - cost) / sale) * 100 : 0;
+  } else {
+    marginPct = num(`${p}-margin-pct`);
+    sale = marginPct < 100 ? cost / (1 - marginPct/100) : 0;
+  }
+
+  const vol = num(`${p}-vol`);
+  const rev = sale * vol;
+
+  $(`${p}-calc-sale`).textContent   = sale > 0 ? fmtR(sale) : '—';
+  $(`${p}-calc-margin`).textContent = sale > 0 ? fmtP(marginPct) : '—';
+  $(`${p}-calc-rev`).textContent    = rev  > 0 ? fmtR(rev)  : '—';
+
+  if (p === 'a') { updateCrossNames(); }
+  updateCrossRate();
+  updateUpElast();
+  return { cost, sale, marginPct, vol, rev };
+}
+
+['a-cost','a-sale','a-margin-pct','a-vol',
+ 'b-cost','b-sale','b-margin-pct','b-vol'].forEach(id => {
+  $(id).addEventListener('input', () => {
+    const p = id.startsWith('a') ? 'a' : 'b';
+    calcItem(p);
+  });
+});
+
+$('up-elast').addEventListener('input', updateUpElast);
+
+// ════════════════════════════════════════════════════════
+// CROSS-SELL
+// ════════════════════════════════════════════════════════
+function updateCrossNames() {
+  const an = $('a-name').value || 'Produto A';
+  const bn = $('b-name').value || 'Produto B';
+  $('cross-a-name').textContent = an;
+  $('cross-b-name').textContent = bn;
+}
+$('a-name').addEventListener('input', updateCrossNames);
+$('b-name').addEventListener('input', updateCrossNames);
+
+function updateCrossRate() {
+  const rate = parseInt($('cross-rate').value);
+  $('cross-rate-val').textContent = rate + '%';
+  const volBase = num('b-vol');
+  const volAdj  = volBase * rate / 100;
+  $('cross-vol-base').textContent = volBase > 0 ? volBase + ' un./mês' : '—';
+  $('cross-vol-adj').textContent  = volBase > 0 ? fmt(volAdj,1) + ' un./mês' : '—';
+}
+
+// ════════════════════════════════════════════════════════
+// UP-SELL — ELASTICITY
+// ════════════════════════════════════════════════════════
+function getItemData(p) {
+  const cost = num(`${p}-cost`);
+  let sale, marginPct;
+  if (toggleState[p] === 'sale') {
+    sale = num(`${p}-sale`);
+    marginPct = sale > 0 ? ((sale-cost)/sale)*100 : 0;
+  } else {
+    marginPct = num(`${p}-margin-pct`);
+    sale = marginPct < 100 ? cost/(1-marginPct/100) : 0;
+  }
+  const vol = num(`${p}-vol`);
+  return { cost, sale, marginPct, vol, rev: sale*vol };
+}
+
+function updateUpElast() {
+  const a = getItemData('a');
+  const b = getItemData('b');
+  const elast = parseFloat($('up-elast').value) || -0.30;
+
+  if (a.sale <= 0 || b.sale <= 0) {
+    $('up-price-var').textContent  = '—';
+    $('up-vol-impact').textContent = '—';
+    $('up-vol-adj').textContent    = '—';
+    return;
+  }
+
+  const priceVar  = ((b.sale - a.sale) / a.sale) * 100;
+  const volImpact = elast * priceVar;
+  const volAdj    = b.vol * (1 + volImpact/100);
+
+  $('up-price-var').textContent  = fmtP(priceVar);
+  $('up-vol-impact').textContent = fmtP(volImpact);
+  $('up-vol-adj').textContent    = fmt(Math.max(0,volAdj),1) + ' un./mês';
+}
+
+// ════════════════════════════════════════════════════════
+// LTV
+// ════════════════════════════════════════════════════════
+function updateLTV() {
+  const aTotal  = num('ltv-a-total');
+  const aPeriod = num('ltv-a-period') || 1;
+  const bTotal  = num('ltv-b-total');
+  const bPeriod = num('ltv-b-period') || 1;
+  const ltvA = aTotal / aPeriod;
+  const ltvB = bTotal / bPeriod;
+
+  $('ltv-a-val').textContent = aTotal > 0 ? fmtR(ltvA) + '/mês' : '—';
+  $('ltv-b-val').textContent = bTotal > 0 ? fmtR(ltvB) + '/mês' : '—';
+
+  if (ltvA > 0 && ltvB > 0) {
+    const varPct = ((ltvB - ltvA) / ltvA) * 100;
+    $('ltv-var').textContent = (varPct >= 0 ? '+' : '') + fmtP(varPct);
+    $('ltv-var').className = 'cv ' + (varPct >= 0 ? '' : 'neg');
+  } else {
+    $('ltv-var').textContent = '—';
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// HOMOLOGAÇÃO
+// ════════════════════════════════════════════════════════
+function setHomo(val) {
+  homoValue = val;
+  $('homo-yes').classList.toggle('active', val==='yes');
+  $('homo-no').classList.toggle('active',  val==='no');
+  $('homo-warning').style.display = val==='yes' ? '' : 'none';
+}
+
+// ════════════════════════════════════════════════════════
+// RESULT COMPUTATION
+// ════════════════════════════════════════════════════════
+function computeResult() {
+  const a = getItemData('a');
+  const b = getItemData('b');
+  const f1 = parseInt($('f1').value);
+  const f2 = parseInt($('f2').value);
+  const f3 = parseInt($('f3').value);
+
+  // ─ adjusted volume ────────────────────────────────────
+  let adjVol = b.vol;
+
+  if (scenario === 'cross') {
+    const rate = parseInt($('cross-rate').value) / 100;
+    adjVol = b.vol * rate;
+  } else if (scenario === 'up') {
+    const elast   = parseFloat($('up-elast').value) || -0.30;
+    const priceVar = a.sale > 0 ? ((b.sale - a.sale) / a.sale) * 100 : 0;
+    const volImpact = elast * priceVar;
+    adjVol = Math.max(0, b.vol * (1 + volImpact/100));
+  } else if (scenario === 'troca' && homoValue === 'yes') {
+    adjVol = b.vol * 0.80;
+  }
+
+  // ─ incremental revenue/profit ─────────────────────────
+  const adjRev = b.sale * adjVol;
+  let incrRev, incrProfit;
+
+  if (scenario === 'cross') {
+    incrRev    = adjRev;
+    incrProfit = (b.sale - b.cost) * adjVol;
+  } else {
+    // up-sell or troca: delta vs current
+    const baseRev    = a.sale * a.vol;
+    const baseProfit = (a.sale - a.cost) * a.vol;
+    incrRev    = adjRev - baseRev;
+    incrProfit = (b.sale - b.cost) * adjVol - baseProfit;
+  }
+
+  // ─ tangible score ──────────────────────────────────────
+  const marginScore  = Math.min(b.marginPct / 60 * 60, 60);
+  const revScore     = Math.min(adjRev / 50000 * 40, 40);
+  const scoreTang    = marginScore + revScore;
+
+  // ─ intangible score ────────────────────────────────────
+  const weightedIntang = f1*0.55 + f2*0.30 + f3*0.15;
+  let scoreIntang = (weightedIntang - 1) / 4 * 100;   // normalize 1–5 → 0–100
+  if (scenario === 'troca' && homoValue === 'yes') scoreIntang *= 0.85;
+
+  // ─ final score ─────────────────────────────────────────
+  let scoreFinal = scoreTang * 0.55 + scoreIntang * 0.45;
+  scoreFinal = Math.max(0, Math.min(100, scoreFinal));
+
+  // ─ render metrics ──────────────────────────────────────
+  const rMargin = $('r-margin');
+  rMargin.textContent = b.sale > 0 ? fmtP(b.marginPct) : '—';
+  rMargin.className = 'metric-value neutral';
+
+  const renderMetric = (id, val) => {
+    const el = $(id);
+    el.textContent = isFinite(val) && val !== 0 ? fmtR(val) : '—';
+    setColorClass(el, val);
+  };
+  renderMetric('r-rev-month',    incrRev);
+  renderMetric('r-profit-month', incrProfit);
+  renderMetric('r-rev-year',     incrRev * 12);
+  renderMetric('r-profit-year',  incrProfit * 12);
+
+  const scoreEl = $('r-score');
+  scoreEl.textContent = fmt(scoreFinal,1);
+  setColorClass(scoreEl, scoreFinal, 50);
+
+  // ─ score bar ───────────────────────────────────────────
+  $('score-big').textContent = fmt(scoreFinal,1);
+  $('score-big').style.color = scoreFinal >= 50 ? 'var(--green)' : 'var(--red)';
+  const bar = $('score-bar');
+  setTimeout(() => { bar.style.width = scoreFinal + '%'; }, 80);
+  bar.classList.toggle('low', scoreFinal < 50);
+
+  // ─ recommendation ──────────────────────────────────────
+  const rCard  = $('reco-card');
+  const rBadge = $('reco-badge');
+  const rText  = $('reco-text');
+
+  if (scoreFinal >= 75) {
+    rCard.className = 'reco-card';
+    rBadge.className = 'reco-badge';
+    rBadge.textContent = '✓ Alta oportunidade';
+    rText.textContent = `Score de ${fmt(scoreFinal,1)}/100. Esta oportunidade apresenta forte potencial com margem de ` +
+      `${fmtP(b.marginPct)} no novo item e receita incremental estimada de ${fmtR(incrRev)}/mês ` +
+      `(${fmtR(incrRev*12)}/ano). Recomenda-se avançar com a proposta.`;
+  } else if (scoreFinal >= 50) {
+    rCard.className = 'reco-card warn';
+    rBadge.className = 'reco-badge warn';
+    rBadge.textContent = '⚡ Oportunidade moderada';
+    rText.textContent = `Score de ${fmt(scoreFinal,1)}/100. A oportunidade é viável, mas exige atenção. ` +
+      `Avalie a aceitação do cliente e negocie condições que aumentem a margem ou o volume antes de comprometer recursos.`;
+  } else {
+    rCard.className = 'reco-card bad';
+    rBadge.className = 'reco-badge bad';
+    rBadge.textContent = '✗ Viabilidade baixa';
+    rText.textContent = `Score de ${fmt(scoreFinal,1)}/100. As condições atuais não favorecem esta operação. ` +
+      `Revise o preço de custo, a margem, o volume estimado ou os fatores intangíveis antes de prosseguir.`;
+  }
+
+  // ─ LTV result (up-sell) ────────────────────────────────
+  if (scenario === 'up') {
+    const aTotal  = num('ltv-a-total');
+    const aPeriod = num('ltv-a-period') || 1;
+    const bTotal  = num('ltv-b-total');
+    const bPeriod = num('ltv-b-period') || 1;
+    const ltvA = aTotal / aPeriod;
+    const ltvB = bTotal / bPeriod;
+    $('r-ltv-a').textContent = aTotal > 0 ? fmtR(ltvA) + '/mês' : '—';
+    $('r-ltv-b').textContent = bTotal > 0 ? fmtR(ltvB) + '/mês' : '—';
+    if (ltvA > 0 && ltvB > 0) {
+      const vp = ((ltvB-ltvA)/ltvA)*100;
+      $('r-ltv-var').textContent = (vp>=0?'+':'') + fmtP(vp);
+      $('r-ltv-var').className = 'cv ' + (vp>=0 ? '' : 'neg');
+    } else { $('r-ltv-var').textContent = '—'; }
+  }
+
+  // ─ compare ─────────────────────────────────────────────
+  $('cmp-a-name').textContent   = $('a-name').value || '—';
+  $('cmp-a-brand').textContent  = $('a-brand').value || '—';
+  $('cmp-a-margin').textContent = a.sale>0 ? fmtP(a.marginPct) : '—';
+  $('cmp-a-rev').textContent    = a.rev>0  ? fmtR(a.rev)       : '—';
+  $('cmp-a-vol').textContent    = a.vol>0  ? a.vol + ' un./mês' : '—';
+
+  $('cmp-b-name').textContent   = $('b-name').value || '—';
+  $('cmp-b-brand').textContent  = $('b-brand').value || '—';
+  $('cmp-b-margin').textContent = b.sale>0 ? fmtP(b.marginPct) : '—';
+  $('cmp-b-rev').textContent    = adjRev>0 ? fmtR(adjRev)      : '—';
+  $('cmp-b-vol').textContent    = adjVol>0 ? fmt(adjVol,1) + ' un./mês' : '—';
+}
+
+// ════════════════════════════════════════════════════════
+// EXPORT
+// ════════════════════════════════════════════════════════
+function exportReport() {
+  const scLabel = {'cross':'Cross-sell','up':'Up-sell','troca':'Troca de marca'}[scenario];
+  const a = getItemData('a');
+  const b = getItemData('b');
+
+  function row(label, val) {
+    return `<tr><td style="padding:7px 12px;color:#7a99b8;font-size:.85rem">${label}</td><td style="padding:7px 12px;font-weight:700">${val}</td></tr>`;
+  }
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Relatório — Calculadora de Oportunidades</title>
+<style>
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1923;color:#dce8f5;margin:0;padding:32px;font-size:14px}
+  h1{font-size:1.3rem;margin-bottom:4px}
+  .sub{color:#7a99b8;font-size:.85rem;margin-bottom:28px}
+  .card{background:#182230;border:1px solid #2a3f55;border-radius:14px;padding:20px 24px;margin-bottom:18px}
+  h2{font-size:.95rem;font-weight:700;margin-bottom:14px;color:#dce8f5}
+  table{width:100%;border-collapse:collapse}
+  td{border-bottom:1px solid #2a3f55}
+  td:last-child{text-align:right;color:#3dd68c}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .score-bar{background:#1e2d3d;border-radius:8px;height:12px;margin:8px 0;overflow:hidden}
+  .score-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#4a9edd,#3dd68c)}
+  .footer{margin-top:32px;font-size:.78rem;color:#7a99b8;border-top:1px solid #2a3f55;padding-top:14px}
+  @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<h1>Relatório de Oportunidade — ${scLabel}</h1>
+<div class="sub">Gerado em ${new Date().toLocaleString('pt-BR')} · Desafio Representações Comerciais</div>
+
+<div class="grid2">
+<div class="card">
+  <h2>Item Atual</h2>
+  <table>
+    ${row('Nome', $('a-name').value||'—')}
+    ${row('Marca', $('a-brand').value||'—')}
+    ${row('Preço de custo', a.cost>0?fmtR(a.cost):'—')}
+    ${row('Preço de venda', a.sale>0?fmtR(a.sale):'—')}
+    ${row('Margem', a.sale>0?fmtP(a.marginPct):'—')}
+    ${row('Volume/mês', a.vol>0?a.vol+' un.':'—')}
+    ${row('Receita/mês', a.rev>0?fmtR(a.rev):'—')}
+  </table>
+</div>
+<div class="card">
+  <h2>Novo Item</h2>
+  <table>
+    ${row('Nome', $('b-name').value||'—')}
+    ${row('Marca', $('b-brand').value||'—')}
+    ${row('Preço de custo', b.cost>0?fmtR(b.cost):'—')}
+    ${row('Preço de venda', b.sale>0?fmtR(b.sale):'—')}
+    ${row('Margem', b.sale>0?fmtP(b.marginPct):'—')}
+    ${row('Volume/mês', b.vol>0?b.vol+' un.':'—')}
+    ${row('Receita/mês', b.rev>0?fmtR(b.rev):'—')}
+  </table>
+</div>
+</div>
+
+<div class="card">
+  <h2>Métricas do Cenário (${scLabel})</h2>
+  <table>
+    ${row('Margem do novo item', document.getElementById('r-margin').textContent)}
+    ${row('Receita incremental/mês', document.getElementById('r-rev-month').textContent)}
+    ${row('Lucro incremental/mês', document.getElementById('r-profit-month').textContent)}
+    ${row('Receita incremental/ano', document.getElementById('r-rev-year').textContent)}
+    ${row('Lucro incremental/ano', document.getElementById('r-profit-year').textContent)}
+    ${row('Score de viabilidade', document.getElementById('r-score').textContent)}
+  </table>
+</div>
+
+<div class="card">
+  <h2>Score de Viabilidade</h2>
+  <div style="font-size:2rem;font-weight:900;color:${parseFloat(document.getElementById('score-big').textContent)>=50?'#3dd68c':'#e05c5c'}">${document.getElementById('score-big').textContent} / 100</div>
+  <div class="score-bar"><div class="score-fill" style="width:${document.getElementById('score-big').textContent}%"></div></div>
+  <p style="margin-top:10px;font-size:.88rem;line-height:1.6">${document.getElementById('reco-text').textContent}</p>
+</div>
+
+<div class="card">
+  <h2>Fatores de Viabilidade</h2>
+  <table>
+    ${row('Aceitação pelo cliente final (55%)', $('f1').value+'/5')}
+    ${row('Suporte técnico do fabricante (30%)', $('f2').value+'/5')}
+    ${row('Risco de vencimento/obsolescência (15%)', $('f3').value+'/5')}
+    ${scenario==='troca'?row('Homologação necessária', homoValue==='yes'?'Sim (penalidade aplicada)':'Não'):''}
+  </table>
+</div>
+
+<div class="footer">Gerado pela Calculadora de Oportunidades · Desafio Representações Comerciais</div>
+</body>
+</html>`;
+
+  const blob = new Blob([html], {type:'text/html'});
+  const url  = URL.createObjectURL(blob);
+  const win  = window.open(url, '_blank');
+  if (win) setTimeout(() => win.print(), 800);
+}
+
+// ════════════════════════════════════════════════════════
+// NEW SIMULATION
+// ════════════════════════════════════════════════════════
+function newSimulation() {
+  // clear all inputs
+  document.querySelectorAll('input[type=text], input[type=number]').forEach(el => {
+    if (!el.id.startsWith('up-elast')) el.value = '';
+  });
+  $('up-elast').value = '-0.30';
+  $('cross-rate').value = 50;
+  $('f1').value = $('f2').value = $('f3').value = 3;
+  $('f1-val').textContent = $('f2-val').textContent = $('f3-val').textContent = '3';
+  $('cross-rate-val').textContent = '50%';
+  ['a','b'].forEach(p => { setToggle(p,'sale'); calcItem(p); });
+  calcItem('a'); calcItem('b');
+  updateCrossRate();
+  updateLTV();
+  resetFlow();
+}
+
+// ════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════
+showScenarioBlocks();
+updateStepIndicator();
+</script>
+</body>
+</html>
