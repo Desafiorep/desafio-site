@@ -324,11 +324,11 @@
     .logos-bar__grid img {
       max-height: 52px; max-width: 160px;
       width: auto; object-fit: contain;
-      filter: contrast(10); /* force near-black */
-      opacity: .75;
+      filter: brightness(0);
+      opacity: .55;
       transition: opacity var(--ease), transform var(--ease);
     }
-    .logos-bar__grid img:hover { opacity: 1; transform: scale(1.05); }
+    .logos-bar__grid img:hover { opacity: .85; transform: scale(1.05); }
 
     /* ─── ABOUT ─────────────────────────────────────────── */
     .about { background: var(--ice); }
@@ -389,7 +389,7 @@
     }
 
     /* ─── PRODUCTS CAROUSEL ─────────────────────────────── */
-    .products { background: var(--white); overflow: hidden; }
+    .products { background: #F5F8FA; overflow: hidden; }
     .products__header {
       text-align: center; margin-bottom: clamp(36px, 4vw, 56px);
     }
@@ -403,26 +403,22 @@
       max-width: 1240px; margin: 0 auto;
     }
     .carousel__track {
-      display: flex; gap: 20px;
+      display: flex; gap: 32px;
       transition: transform 600ms cubic-bezier(.4,0,.2,1);
     }
     .carousel__slide {
-      flex: 0 0 calc(33.333% - 14px);
-      border-radius: 10px; overflow: hidden;
-      background: var(--white);
-      border: 1px solid #E2EDF5;
-      box-shadow: 0 4px 24px rgba(11,43,55,.07);
-      transition: box-shadow var(--ease), transform var(--ease);
-    }
-    .carousel__slide:hover {
-      box-shadow: 0 12px 40px rgba(11,43,55,.13);
-      transform: translateY(-3px);
+      flex: 0 0 calc(33.333% - 22px);
+      background: transparent;
     }
     .carousel__slide img {
       width: 100%; aspect-ratio: 1 / 1;
       object-fit: contain; object-position: center;
-      padding: 24px;
-      background: var(--white);
+      transition: transform 400ms ease;
+      filter: drop-shadow(0 12px 32px rgba(0,0,0,.12));
+    }
+    .carousel__slide:hover img {
+      transform: scale(1.04) translateY(-4px);
+      filter: drop-shadow(0 20px 44px rgba(0,0,0,.18));
     }
     .carousel__controls {
       display: flex; align-items: center; justify-content: center;
@@ -656,7 +652,7 @@
 
     /* ─── RESPONSIVE ─────────────────────────────────────── */
     @media (max-width: 1024px) {
-      .carousel__slide { flex: 0 0 calc(50% - 10px); }
+      .carousel__slide { flex: 0 0 calc(50% - 16px); }
       .logos-bar__grid { grid-template-columns: repeat(4, 1fr); }
       .clients__grid { grid-template-columns: repeat(2, 1fr); }
       .footer__grid { grid-template-columns: 1fr 1fr; }
@@ -848,19 +844,19 @@
     <div class="carousel" data-aos="fade-up" data-aos-delay="80">
       <div class="carousel__track" id="carouselTrack">
         <div class="carousel__slide">
-          <img src="./assets/produtos/prod-1.jpg" alt="Produto 1 — portfólio Desafio" loading="lazy" />
+          <img src="./assets/produtos/prod-1.png" alt="Produto 1 — portfólio Desafio" loading="lazy" />
         </div>
         <div class="carousel__slide">
-          <img src="./assets/produtos/prod-2.jpg" alt="Produto 2 — portfólio Desafio" loading="lazy" />
+          <img src="./assets/produtos/prod-2.png" alt="Produto 2 — portfólio Desafio" loading="lazy" />
         </div>
         <div class="carousel__slide">
-          <img src="./assets/produtos/prod-3.jpg" alt="Produto 3 — portfólio Desafio" loading="lazy" />
+          <img src="./assets/produtos/prod-3.png" alt="Produto 3 — portfólio Desafio" loading="lazy" />
         </div>
         <div class="carousel__slide">
-          <img src="./assets/produtos/prod-4.jpg" alt="Produto 4 — portfólio Desafio" loading="lazy" />
+          <img src="./assets/produtos/prod-4.png" alt="Produto 4 — portfólio Desafio" loading="lazy" />
         </div>
         <div class="carousel__slide">
-          <img src="./assets/produtos/prod-5.jpg" alt="Produto 5 — portfólio Desafio" loading="lazy" />
+          <img src="./assets/produtos/prod-5.png" alt="Produto 5 — portfólio Desafio" loading="lazy" />
         </div>
       </div>
 
@@ -1171,7 +1167,7 @@
     function goTo(idx) {
       const max = total - getVisible();
       current   = Math.max(0, Math.min(idx, max));
-      const slideW = slides[0].offsetWidth + 20; // gap = 20px
+      const slideW = slides[0].offsetWidth + 32; // gap = 32px
       track.style.transform = `translateX(-${current * slideW}px)`;
       dotsEl.querySelectorAll('.carousel__dot').forEach((d, i) => d.classList.toggle('active', i === current));
     }
