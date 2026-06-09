@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa do Mundo 2026 – Roteiro da Galera</title>
+<style>
+  :root {
+    --verde: #009C3B;
+    --amarelo: #FFDF00;
+    --azul: #002776;
+    --branco: #FFFFFF;
+    --cinza-escuro: #0f0f1a;
+    --cinza-card: #1a1a2e;
+    --azul-claro: #16213e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--cinza-escuro);
+    color: #e0e0e0;
+    overflow-x: hidden;
+  }
+
+  /* ─── HERO ─────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 80%, #002776 0%, #0f0f1a 70%);
+  }
+
+  .hero-stars {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 45% 20%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 60%, #fff 0%, transparent 100%),
+      radial-gradient(2px 2px at 75% 30%, #FFDF00 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 70%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 5% 75%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 10%, #fff 0%, transparent 100%),
+      radial-gradient(2px 2px at 35% 85%, #FFDF00 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 50%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 90%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 20% 60%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 45%, #fff 0%, transparent 100%),
+      radial-gradient(2px 2px at 15% 30%, #FFDF00 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 75%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 95% 55%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 40% 10%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 35%, #fff 0%, transparent 100%);
+  }
+
+  .hero-ball {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #3a3a3a 0%, #111 60%, #000 100%);
+    opacity: 0.15;
+    top: -100px;
+    right: -150px;
+    animation: float 8s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .hero-flag {
+    display: inline-block;
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, #FFDF00 0%, #009C3B 50%, #FFDF00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: #aaa;
+    margin-bottom: 0.5rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .hero-dates {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-weight: 700;
+    color: var(--amarelo);
+    margin-bottom: 2rem;
+  }
+
+  .hero-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .member-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,223,0,0.3);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    color: #ddd;
+    transition: all 0.2s;
+  }
+
+  .member-chip:hover {
+    background: rgba(255,223,0,0.15);
+    border-color: var(--amarelo);
+    color: var(--amarelo);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: fadeInUp 2s ease 1s both;
+  }
+
+  .scroll-arrow {
+    width: 24px;
+    height: 24px;
+    border-right: 2px solid #666;
+    border-bottom: 2px solid #666;
+    transform: rotate(45deg);
+    animation: scrollBounce 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollBounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50% { transform: rotate(45deg) translateY(6px); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  /* ─── NAV ────────────────────────────────────────────────── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15,15,26,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,223,0,0.15);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 50px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .nav-item:hover, .nav-item.active {
+    background: rgba(255,223,0,0.1);
+    border-color: rgba(255,223,0,0.4);
+    color: var(--amarelo);
+  }
+
+  /* ─── SECTION WRAPPER ────────────────────────────────────── */
+  section {
+    padding: 5rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-icon {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: var(--branco);
+  }
+
+  .section-title span {
+    color: var(--amarelo);
+  }
+
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, var(--amarelo), transparent);
+    margin-bottom: 2.5rem;
+  }
+
+  /* ─── CITY BLOCKS ────────────────────────────────────────── */
+  .city-block {
+    margin-bottom: 4rem;
+    scroll-margin-top: 80px;
+  }
+
+  .city-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .city-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .city-philadelphia .city-header { background: linear-gradient(135deg, #1a1040 0%, #2d1b69 100%); border-left: 4px solid #7c3aed; }
+  .city-ny .city-header { background: linear-gradient(135deg, #0f1b2d 0%, #1e3a5f 100%); border-left: 4px solid #3b82f6; }
+  .city-miami .city-header { background: linear-gradient(135deg, #1a2e1a 0%, #0d4a3a 100%); border-left: 4px solid #10b981; }
+  .city-houston .city-header { background: linear-gradient(135deg, #2d1b00 0%, #5c3200 100%); border-left: 4px solid #f59e0b; }
+  .city-norleans .city-header { background: linear-gradient(135deg, #2d0a1f 0%, #5c1e3d 100%); border-left: 4px solid #ec4899; }
+  .city-tallahassee .city-header { background: linear-gradient(135deg, #0a2d0a 0%, #1e5c1e 100%); border-left: 4px solid #22c55e; }
+  .city-retorno .city-header { background: linear-gradient(135deg, #1a1a00 0%, #3d3d00 100%); border-left: 4px solid #FFDF00; }
+
+  .city-emoji {
+    font-size: 3rem;
+    flex-shrink: 0;
+  }
+
+  .city-info h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--branco);
+  }
+
+  .city-info p {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+
+  .city-dates {
+    margin-left: auto;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .city-dates .date-range {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--amarelo);
+  }
+
+  .city-dates .nights {
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  /* ─── DAY CARDS ──────────────────────────────────────────── */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+  }
+
+  .day-card {
+    background: var(--cinza-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: transform 0.2s, border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .day-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,223,0,0.2);
+  }
+
+  .day-card.game-day {
+    border-color: rgba(0,156,59,0.4);
+    background: linear-gradient(135deg, #0f2d18 0%, #1a1a2e 100%);
+  }
+
+  .day-card.game-day::before {
+    content: '⚽ JOGO DO BRASIL';
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: var(--verde);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 50px;
+    letter-spacing: 1px;
+  }
+
+  .day-card.travel-day {
+    border-color: rgba(59,130,246,0.3);
+    background: linear-gradient(135deg, #0f1b2d 0%, #1a1a2e 100%);
+  }
+
+  .day-card.free-day {
+    border-color: rgba(168,85,247,0.2);
+  }
+
+  .day-number {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.25rem;
+  }
+
+  .day-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--branco);
+    margin-bottom: 0.75rem;
+    padding-right: 6rem;
+  }
+
+  .day-card.game-day .day-title { color: #6ee7b7; }
+  .day-card.travel-day .day-title { color: #93c5fd; }
+
+  .activity-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .activity-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #bbb;
+    line-height: 1.4;
+  }
+
+  .activity-list li .icon {
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* ─── GAME HIGHLIGHT ─────────────────────────────────────── */
+  .game-highlight {
+    background: linear-gradient(135deg, #003d1a 0%, #001f0d 100%);
+    border: 2px solid var(--verde);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .game-highlight::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0,156,59,0.1) 0%, transparent 70%);
+  }
+
+  .game-score-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .team-flag { font-size: 2.5rem; }
+  .team-name { font-size: 0.75rem; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+
+  .vs-badge {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--amarelo);
+    padding: 0.5rem 1rem;
+    background: rgba(255,223,0,0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255,223,0,0.3);
+  }
+
+  .game-details {
+    flex: 2;
+    min-width: 200px;
+  }
+
+  .game-details h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--branco);
+    margin-bottom: 0.5rem;
+  }
+
+  .game-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .game-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.82rem;
+    color: #aaa;
+  }
+
+  .tickets-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255,223,0,0.1);
+    border: 1px solid rgba(255,223,0,0.3);
+    border-radius: 50px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.78rem;
+    color: var(--amarelo);
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+
+  /* ─── ACCOMMODATION CARD ─────────────────────────────────── */
+  .accommodation-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .accomm-card {
+    background: var(--cinza-card);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+
+  .accomm-card:hover { border-color: rgba(255,223,0,0.2); }
+
+  .accomm-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .accomm-info h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--branco);
+    margin-bottom: 0.3rem;
+  }
+
+  .accomm-info p {
+    font-size: 0.8rem;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  .accomm-price {
+    margin-left: auto;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .price-amount {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--amarelo);
+  }
+
+  .price-label {
+    font-size: 0.7rem;
+    color: #666;
+    display: block;
+  }
+
+  /* ─── FLIGHT CARD ────────────────────────────────────────── */
+  .flight-card {
+    background: linear-gradient(135deg, #0f1b2d 0%, #1a1a2e 100%);
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+  }
+
+  .flight-route {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .airport-code {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--branco);
+  }
+
+  .flight-line {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .flight-line-bar {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #3b82f6, #93c5fd);
+    position: relative;
+  }
+
+  .flight-line-bar::after {
+    content: '✈';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--azul-claro);
+    padding: 0 4px;
+    font-size: 0.9rem;
+    color: #93c5fd;
+  }
+
+  .flight-duration {
+    font-size: 0.7rem;
+    color: #666;
+  }
+
+  .flight-times {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .flight-time-item { text-align: center; }
+  .flight-time { font-size: 1.2rem; font-weight: 700; color: var(--branco); }
+  .flight-time-label { font-size: 0.7rem; color: #888; }
+
+  /* ─── ROAD TRIP ──────────────────────────────────────────── */
+  .road-trip-banner {
+    background: linear-gradient(135deg, #1a0a00 0%, #2d1500 100%);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .road-trip-banner::before {
+    content: '🛣️';
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 8rem;
+    opacity: 0.08;
+  }
+
+  .road-trip-icon { font-size: 2.5rem; }
+
+  .road-trip-info h3 { font-size: 1.1rem; font-weight: 700; color: var(--branco); }
+  .road-trip-info p { font-size: 0.85rem; color: #aaa; margin-top: 0.25rem; }
+
+  .road-trip-stops {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .stop-badge {
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 50px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    color: #fbbf24;
+    font-weight: 600;
+  }
+
+  .stop-arrow { color: #666; font-size: 0.8rem; }
+
+  /* ─── TIPS SECTION ───────────────────────────────────────── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .tip-card {
+    background: var(--cinza-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: transform 0.2s;
+  }
+
+  .tip-card:hover { transform: translateY(-2px); }
+
+  .tip-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .tip-title { font-size: 0.9rem; font-weight: 700; color: var(--branco); margin-bottom: 0.4rem; }
+  .tip-text { font-size: 0.82rem; color: #999; line-height: 1.6; }
+
+  /* ─── TIMELINE ───────────────────────────────────────────── */
+  .timeline-section {
+    background: var(--azul-claro);
+    padding: 3rem 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .timeline {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    padding: 1rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--amarelo) transparent;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 90px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+  }
+
+  .timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: calc(50% + 18px);
+    width: calc(100% - 36px);
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    z-index: 0;
+  }
+
+  .timeline-item.has-game:not(:last-child)::after {
+    background: rgba(0,156,59,0.3);
+  }
+
+  .timeline-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--cinza-card);
+    border: 2px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    z-index: 1;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .timeline-item.has-game .timeline-dot {
+    border-color: var(--verde);
+    background: #003d1a;
+    box-shadow: 0 0 12px rgba(0,156,59,0.4);
+  }
+
+  .timeline-item:hover .timeline-dot {
+    transform: scale(1.2);
+    border-color: var(--amarelo);
+  }
+
+  .timeline-date {
+    font-size: 0.65rem;
+    color: #888;
+    margin-top: 0.4rem;
+    font-weight: 600;
+  }
+
+  .timeline-city {
+    font-size: 0.6rem;
+    color: #666;
+    text-align: center;
+    max-width: 80px;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────────── */
+  footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: #050510;
+    color: #444;
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  footer .footer-flag { font-size: 2rem; margin-bottom: 0.5rem; }
+  footer p { margin: 0.25rem 0; }
+  footer strong { color: var(--amarelo); }
+
+  /* ─── SECTION BG ALTERNATION ────────────────────────────── */
+  .section-alt {
+    background: var(--azul-claro);
+    padding: 5rem 1.5rem;
+  }
+
+  .section-alt > * {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .game-highlight { flex-direction: column; }
+    .city-header { flex-wrap: wrap; }
+    .city-dates { margin-left: 0; text-align: left; }
+    .flight-card { flex-direction: column; }
+  }
+
+  /* ─── ANIMATIONS ─────────────────────────────────────────── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── PACKING LIST ───────────────────────────────────────── */
+  .packing-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .packing-card {
+    background: var(--cinza-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .packing-card h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--amarelo);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .packing-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .packing-card ul li {
+    font-size: 0.82rem;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .packing-card ul li::before {
+    content: '○';
+    color: #555;
+    font-size: 0.7rem;
+  }
+
+  /* ─── GROUP SECTION ──────────────────────────────────────── */
+  .group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+
+  .group-card {
+    background: var(--cinza-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .group-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,223,0,0.3);
+  }
+
+  .group-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 0 auto 0.75rem;
+    color: #fff;
+  }
+
+  .group-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--branco);
+  }
+
+  .group-flight {
+    font-size: 0.72rem;
+    color: #666;
+    margin-top: 0.25rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<div class="hero" id="topo">
+  <div class="hero-stars"></div>
+  <div class="hero-ball"></div>
+
+  <div class="hero-content">
+    <div class="hero-flag">🇧🇷</div>
+    <h1 class="hero-title">Copa do Mundo<br>2026</h1>
+    <p class="hero-subtitle">Roteiro Oficial da Galera</p>
+    <p class="hero-dates">18 de Junho → 4 de Julho</p>
+
+    <div class="hero-group">
+      <span class="member-chip">✈ Sola</span>
+      <span class="member-chip">✈ Leo G</span>
+      <span class="member-chip">✈ Zé</span>
+      <span class="member-chip">✈ Matheus</span>
+      <span class="member-chip">✈ Iago</span>
+      <span class="member-chip">✈ Gado</span>
+      <span class="member-chip">✈ Caio</span>
+      <span class="member-chip">✈ Pimba</span>
+      <span class="member-chip">✈ Rapha</span>
+      <span class="member-chip">✈ Kesochi</span>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">17</span>
+        <span class="stat-label">dias de viagem</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3</span>
+        <span class="stat-label">jogos do Brasil</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">6</span>
+        <span class="stat-label">cidades</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">10</span>
+        <span class="stat-label">amigos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- ─── NAV ─── -->
+<nav class="nav">
+  <a href="#topo" class="nav-item">🏠 Início</a>
+  <a href="#galera" class="nav-item">👥 A Galera</a>
+  <a href="#philadelphia" class="nav-item">🏟️ Filadélfia</a>
+  <a href="#newyork" class="nav-item">🗽 Nova York</a>
+  <a href="#miami" class="nav-item">🌴 Miami</a>
+  <a href="#houston" class="nav-item">⚽ Houston</a>
+  <a href="#roadtrip" class="nav-item">🚘 Road Trip</a>
+  <a href="#retorno" class="nav-item">🏠 Retorno</a>
+  <a href="#malas" class="nav-item">🧳 Malas</a>
+</nav>
+
+<!-- ─── TIMELINE ─── -->
+<div class="timeline-section">
+  <div style="max-width:1100px;margin:0 auto">
+    <h3 style="color:#aaa;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem">Linha do Tempo</h3>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot">✈</div><div class="timeline-date">18/06</div><div class="timeline-city">Partida GRU</div></div>
+      <div class="timeline-item has-game"><div class="timeline-dot">⚽</div><div class="timeline-date">19/06</div><div class="timeline-city">Filadelfia</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🗽</div><div class="timeline-date">20/06</div><div class="timeline-city">Nova York</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🌉</div><div class="timeline-date">21/06</div><div class="timeline-city">NY livre</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🏙️</div><div class="timeline-date">22/06</div><div class="timeline-city">NY livre</div></div>
+      <div class="timeline-item"><div class="timeline-dot">✈</div><div class="timeline-date">23/06</div><div class="timeline-city">NY→Miami</div></div>
+      <div class="timeline-item has-game"><div class="timeline-dot">⚽</div><div class="timeline-date">24/06</div><div class="timeline-city">Miami</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🌴</div><div class="timeline-date">25/06</div><div class="timeline-city">Miami</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🌊</div><div class="timeline-date">26/06</div><div class="timeline-city">Miami</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🎉</div><div class="timeline-date">27/06</div><div class="timeline-city">Miami</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🧳</div><div class="timeline-date">28/06</div><div class="timeline-city">Miami</div></div>
+      <div class="timeline-item has-game"><div class="timeline-dot">⚽</div><div class="timeline-date">29/06</div><div class="timeline-city">Houston</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🎷</div><div class="timeline-date">30/06</div><div class="timeline-city">N. Orleans</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🌿</div><div class="timeline-date">01/07</div><div class="timeline-city">Tallahassee</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🌴</div><div class="timeline-date">02/07</div><div class="timeline-city">Miami</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🏟️</div><div class="timeline-date">03/07</div><div class="timeline-city">Miami</div></div>
+      <div class="timeline-item"><div class="timeline-dot">🏠</div><div class="timeline-date">04/07</div><div class="timeline-city">Retorno</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── GALERA ─── -->
+<section id="galera">
+  <div class="section-header">
+    <span class="section-icon">👥</span>
+    <h2 class="section-title">A <span>Galera</span></h2>
+  </div>
+  <div class="section-divider"></div>
+
+  <div class="group-grid">
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#002776,#3b82f6)">SL</div>
+      <div class="group-name">Sola</div>
+      <div class="group-flight">GRU→BOS 18/06</div>
+    </div>
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#009C3B,#22c55e)">LG</div>
+      <div class="group-name">Leo G</div>
+      <div class="group-flight">GRU→BOS 18/06</div>
+    </div>
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">ZÉ</div>
+      <div class="group-name">Zé</div>
+      <div class="group-flight">GRU→BOS 18/06</div>
+    </div>
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#dc2626,#f87171)">MT</div>
+      <div class="group-name">Matheus</div>
+      <div class="group-flight">GRU→BOS 18/06</div>
+    </div>
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#d97706,#fbbf24)">IG</div>
+      <div class="group-name">Iago</div>
+      <div class="group-flight">GRU→JFK 18/06</div>
+    </div>
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#0891b2,#67e8f9)">GD</div>
+      <div class="group-name">Gado</div>
+      <div class="group-flight">GRU→JFK 18/06</div>
+    </div>
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#be185d,#f472b6)">CA</div>
+      <div class="group-name">Caio</div>
+      <div class="group-flight">GRU→JFK 18/06</div>
+    </div>
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#065f46,#34d399)">PB</div>
+      <div class="group-name">Pimba</div>
+      <div class="group-flight">GRU→JFK 18/06</div>
+    </div>
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#7c2d12,#fb923c)">RP</div>
+      <div class="group-name">Rapha</div>
+      <div class="group-flight">GRU→JFK 18/06</div>
+    </div>
+    <div class="group-card">
+      <div class="group-avatar" style="background:linear-gradient(135deg,#4c1d95,#c4b5fd)">KS</div>
+      <div class="group-name">Kesochi</div>
+      <div class="group-flight">GRU→JFK 18/06</div>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem">
+    <h3 style="color:#aaa;font-size:.9rem;margin-bottom:1rem;font-weight:600">Voos de ida</h3>
+    <div class="flight-card">
+      <div class="flight-route">
+        <div><div class="airport-code">GRU</div><div style="font-size:.7rem;color:#888">São Paulo</div></div>
+        <div class="flight-line">
+          <div class="flight-line-bar"></div>
+          <div class="flight-duration">~10h</div>
+        </div>
+        <div><div class="airport-code">BOS</div><div style="font-size:.7rem;color:#888">Boston</div></div>
+      </div>
+      <div class="flight-times">
+        <div class="flight-time-item"><div class="flight-time">18/06</div><div class="flight-time-label">Partida</div></div>
+        <div class="flight-time-item"><div class="flight-time">07h35</div><div class="flight-time-label">Chegada 19/06</div></div>
+      </div>
+      <div style="font-size:.8rem;color:#888">Sola · Leo G · Zé · Matheus</div>
+    </div>
+    <div class="flight-card">
+      <div class="flight-route">
+        <div><div class="airport-code">GRU</div><div style="font-size:.7rem;color:#888">São Paulo</div></div>
+        <div class="flight-line">
+          <div class="flight-line-bar"></div>
+          <div class="flight-duration">~10h</div>
+        </div>
+        <div><div class="airport-code">JFK</div><div style="font-size:.7rem;color:#888">Nova York</div></div>
+      </div>
+      <div class="flight-times">
+        <div class="flight-time-item"><div class="flight-time">18/06</div><div class="flight-time-label">Partida</div></div>
+        <div class="flight-time-item"><div class="flight-time">07h40</div><div class="flight-time-label">Chegada 19/06</div></div>
+      </div>
+      <div style="font-size:.8rem;color:#888">Iago · Gado · Caio · Pimba · Rapha</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FILADÉLFIA ─── -->
+<div class="section-alt">
+<section id="philadelphia" style="padding:0">
+  <div class="city-block city-philadelphia">
+    <div class="city-header">
+      <span class="city-emoji">🏟️</span>
+      <div class="city-info">
+        <h2>Filadélfia</h2>
+        <p>Pennsylvania · Fan Fest + Primeiro Jogo!</p>
+      </div>
+      <div class="city-dates">
+        <div class="date-range">19 → 20 Jun</div>
+        <div class="nights">1 noite</div>
+      </div>
+    </div>
+
+    <!-- Jogo destaque -->
+    <div class="game-highlight fade-in">
+      <div class="game-score-area">
+        <div class="team">
+          <div class="team-flag">🇧🇷</div>
+          <div class="team-name">Brasil</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="team">
+          <div class="team-flag">🇭🇹</div>
+          <div class="team-name">Haiti</div>
+        </div>
+      </div>
+      <div class="game-details">
+        <h3>Brasil × Haiti — Fase de Grupos</h3>
+        <div class="game-meta">
+          <span class="game-meta-item">📅 19 de junho, 20h30</span>
+          <span class="game-meta-item">🏟️ Lincoln Financial Field</span>
+          <span class="game-meta-item">🚇 50 min de metrô do Airbnb</span>
+        </div>
+        <div class="tickets-badge">🎟️ 10 ingressos — 2 CAT2 + 8 CAT3</div>
+      </div>
+    </div>
+
+    <div class="days-grid">
+      <div class="day-card game-day fade-in">
+        <div class="day-number">Dia 1 · 19/06/2026</div>
+        <div class="day-title">Chegada + Fan Fest + Jogo!</div>
+        <ul class="activity-list">
+          <li><span class="icon">✈️</span> Grupo BOS chega 07h35 — pega carro e vai direto</li>
+          <li><span class="icon">✈️</span> Grupo JFK chega 07h40 — encontro em Filadélfia</li>
+          <li><span class="icon">🎪</span> Fan Fest 19/06 — 10 tickets já garantidos!</li>
+          <li><span class="icon">🏨</span> Check-in Airbnb às 15h (960 N 2nd St 3C)</li>
+          <li><span class="icon">⚽</span> Brasil × Haiti — 20h30 no Lincoln Financial Field</li>
+          <li><span class="icon">🚇</span> 50 min de metrô do Airbnb ao estádio</li>
+        </ul>
+      </div>
+      <div class="day-card travel-day fade-in">
+        <div class="day-number">Dia 2 · 20/06/2026</div>
+        <div class="day-title">Filadélfia → Nova York</div>
+        <ul class="activity-list">
+          <li><span class="icon">🚘</span> Devolver Toyota Camry e Chrysler Pacífica até 10h em NY</li>
+          <li><span class="icon">🛣️</span> Filadélfia → NY ~ 2h de carro</li>
+          <li><span class="icon">🏨</span> Check-in em Manhattan: 232 West 29th St, Chelsea</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accommodation-row">
+      <div class="accomm-card fade-in">
+        <div class="accomm-icon">🏠</div>
+        <div class="accomm-info">
+          <h4>Airbnb Filadélfia</h4>
+          <p>960 North 2nd Street 3C<br>Check-in: 15h · 1 noite</p>
+        </div>
+        <div class="accomm-price">
+          <span class="price-amount">R$427</span>
+          <span class="price-label">por pessoa</span>
+        </div>
+      </div>
+      <div class="accomm-card fade-in">
+        <div class="accomm-icon">🚗</div>
+        <div class="accomm-info">
+          <h4>Chrysler Pacífica (NY)</h4>
+          <p>Carro grupo JFK<br>19/06 → 20/06</p>
+        </div>
+        <div class="accomm-price">
+          <span class="price-amount">1 dia</span>
+          <span class="price-label">aluguel</span>
+        </div>
+      </div>
+      <div class="accomm-card fade-in">
+        <div class="accomm-icon">🚗</div>
+        <div class="accomm-info">
+          <h4>Toyota Camry (Boston)</h4>
+          <p>Carro grupo BOS<br>19/06 → 20/06</p>
+        </div>
+        <div class="accomm-price">
+          <span class="price-amount">1 dia</span>
+          <span class="price-label">aluguel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ─── NOVA YORK ─── -->
+<section id="newyork">
+  <div class="city-block city-ny">
+    <div class="city-header">
+      <span class="city-emoji">🗽</span>
+      <div class="city-info">
+        <h2>Nova York</h2>
+        <p>New York · Manhattan, Chelsea</p>
+      </div>
+      <div class="city-dates">
+        <div class="date-range">20 → 23 Jun</div>
+        <div class="nights">3 noites</div>
+      </div>
+    </div>
+
+    <div class="accommodation-row fade-in">
+      <div class="accomm-card">
+        <div class="accomm-icon">🏨</div>
+        <div class="accomm-info">
+          <h4>Hotel Manhattan – Chelsea</h4>
+          <p>232 West 29th Street, Chelsea<br>Check-in: 16h · 3 noites</p>
+        </div>
+        <div class="accomm-price">
+          <span class="price-amount">R$704</span>
+          <span class="price-label">por pessoa</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="days-grid">
+      <div class="day-card fade-in">
+        <div class="day-number">Dia 2 · 20/06/2026</div>
+        <div class="day-title">Tarde em NYC — Parte de Cima da Ilha</div>
+        <ul class="activity-list">
+          <li><span class="icon">🌳</span> Central Park</li>
+          <li><span class="icon">🌟</span> Times Square</li>
+          <li><span class="icon">🎭</span> Radio City Music Hall</li>
+          <li><span class="icon">🏢</span> Rockefeller Center + St. Patrick's Cathedral</li>
+          <li><span class="icon">🔭</span> Summit (prédio) + Grand Central Terminal</li>
+          <li><span class="icon">👕</span> Uniqlo (ao lado)</li>
+          <li><span class="icon">🎉</span> Noite — FESTA!</li>
+        </ul>
+      </div>
+      <div class="day-card free-day fade-in">
+        <div class="day-number">Dia 3 · 21/06/2026</div>
+        <div class="day-title">Livre em NY — Brooklyn</div>
+        <ul class="activity-list">
+          <li><span class="icon">🌉</span> Manhã: Ponte do Brooklyn — atravessar andando</li>
+          <li><span class="icon">📸</span> DUMBO (vistas incrí­veis)</li>
+          <li><span class="icon">💰</span> Tarde: Distrito Financeiro</li>
+          <li><span class="icon">🌊</span> Battery Park (Estátua da Liberdade)</li>
+          <li><span class="icon">🐂</span> Touro de Wall Street + NYSE</li>
+          <li><span class="icon">🕊️</span> Memorial 11 de setembro / World Trade Center</li>
+          <li><span class="icon">🥪</span> Almoço/Janta: Katz Deli</li>
+          <li><span class="icon">🎉</span> Noite — FESTA!</li>
+        </ul>
+      </div>
+      <div class="day-card free-day fade-in">
+        <div class="day-number">Dia 4 · 22/06/2026</div>
+        <div class="day-title">Livre em NY — Lado Esquerdo</div>
+        <ul class="activity-list">
+          <li><span class="icon">🌿</span> Little Island + Chelsea Market</li>
+          <li><span class="icon">🚶</span> High Line (~15 quadras até o Vessel)</li>
+          <li><span class="icon">🏀</span> Madison Square Garden (por fora)</li>
+          <li><span class="icon">🛍️</span> Macy's</li>
+          <li><span class="icon">🏙️</span> Empire State Building</li>
+          <li><span class="icon">⚽</span> (se conseguir ingresso) Senegal × Noruega — 20h</li>
+          <li><span class="icon">🎉</span> Noite — FESTA!</li>
+        </ul>
+      </div>
+      <div class="day-card travel-day fade-in">
+        <div class="day-number">Dia 5 · 23/06/2026</div>
+        <div class="day-title">NY → Miami</div>
+        <ul class="activity-list">
+          <li><span class="icon">🌅</span> Turismo leve de manhã</li>
+          <li><span class="icon">🚕</span> Ir ao JFK ~12h</li>
+          <li><span class="icon">✈️</span> JFK → MIA: Partida 16h07 · Chegada 19h40</li>
+          <li><span class="icon">🌴</span> Check-in Airbnb Miami às 16h</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MIAMI ─── -->
+<div class="section-alt">
+<section id="miami" style="padding:0">
+  <div class="city-block city-miami">
+    <div class="city-header">
+      <span class="city-emoji">🌴</span>
+      <div class="city-info">
+        <h2>Miami</h2>
+        <p>Florida · Brickell Bay + Hard Rock Stadium</p>
+      </div>
+      <div class="city-dates">
+        <div class="date-range">23 → 29 Jun</div>
+        <div class="nights">6 noites</div>
+      </div>
+    </div>
+
+    <div class="flight-card fade-in">
+      <div class="flight-route">
+        <div><div class="airport-code">JFK</div><div style="font-size:.7rem;color:#888">Nova York</div></div>
+        <div class="flight-line">
+          <div class="flight-line-bar"></div>
+          <div class="flight-duration">~3h30</div>
+        </div>
+        <div><div class="airport-code">MIA</div><div style="font-size:.7rem;color:#888">Miami</div></div>
+      </div>
+      <div class="flight-times">
+        <div class="flight-time-item"><div class="flight-time">16h07</div><div class="flight-time-label">Partida 23/06</div></div>
+        <div class="flight-time-item"><div class="flight-time">19h40</div><div class="flight-time-label">Chegada 23/06</div></div>
+      </div>
+      <div style="font-size:.8rem;color:#888">Galera toda</div>
+    </div>
+
+    <!-- Jogo destaque -->
+    <div class="game-highlight fade-in">
+      <div class="game-score-area">
+        <div class="team">
+          <div class="team-flag">🇧🇷</div>
+          <div class="team-name">Brasil</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="team">
+          <div class="team-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div>
+          <div class="team-name">Escócia</div>
+        </div>
+      </div>
+      <div class="game-details">
+        <h3>Brasil × Escócia — Fase de Grupos</h3>
+        <div class="game-meta">
+          <span class="game-meta-item">📅 24 de junho, 18h</span>
+          <span class="game-meta-item">🏟️ Hard Rock Stadium</span>
+          <span class="game-meta-item">🎵 Abertura: Dilsinho (16h)</span>
+          <span class="game-meta-item">🎪 Ginga Miami</span>
+        </div>
+        <div class="tickets-badge">🎟️ Ingressos garantidos</div>
+      </div>
+    </div>
+
+    <div class="days-grid">
+      <div class="day-card fade-in">
+        <div class="day-number">Dia 5 · 23/06 → noite</div>
+        <div class="day-title">Chegada em Miami</div>
+        <ul class="activity-list">
+          <li><span class="icon">✈️</span> Pouso 19h40 no MIA</li>
+          <li><span class="icon">🏨</span> Check-in Airbnb: 1200 Brickell Bay Dr</li>
+          <li><span class="icon">🌴</span> Tomar uma em Miami Beach!</li>
+        </ul>
+      </div>
+      <div class="day-card game-day fade-in">
+        <div class="day-number">Dia 6 · 24/06/2026</div>
+        <div class="day-title">JOGO! Brasil × Escócia</div>
+        <ul class="activity-list">
+          <li><span class="icon">🎵</span> 16h — Show Dilsinho (abertura)</li>
+          <li><span class="icon">⚽</span> 18h — Brasil × Escócia no Hard Rock Stadium</li>
+          <li><span class="icon">🎪</span> Ginga Miami — evento especial Brasil</li>
+          <li><span class="icon">🗺️</span> ~40 min do Airbnb ao estádio</li>
+        </ul>
+      </div>
+      <div class="day-card free-day fade-in">
+        <div class="day-number">Dias 7-11 · 25-28/06</div>
+        <div class="day-title">Dias Livres em Miami 🌊</div>
+        <ul class="activity-list">
+          <li><span class="icon">🏖️</span> Miami Beach</li>
+          <li><span class="icon">🌆</span> South Beach, Ocean Drive</li>
+          <li><span class="icon">🎨</span> Wynwood Walls</li>
+          <li><span class="icon">🍤</span> Little Havana</li>
+          <li><span class="icon">🛥️</span> Passeio de barco</li>
+          <li><span class="icon">🌙</span> Brickell à noite</li>
+          <li><span class="icon">🧳</span> 28/06: Levar malas ao LuggageHero antes das 22h</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accommodation-row fade-in">
+      <div class="accomm-card">
+        <div class="accomm-icon">🏠</div>
+        <div class="accomm-info">
+          <h4>Airbnb Brickell Bay</h4>
+          <p>1200 Brickell Bay Dr, Miami FL 33131<br>Check-in: 16h · 6 noites</p>
+        </div>
+        <div class="accomm-price">
+          <span class="price-amount">R$409</span>
+          <span class="price-label">por pessoa/dia</span>
+        </div>
+      </div>
+      <div class="accomm-card">
+        <div class="accomm-icon">🚗</div>
+        <div class="accomm-info">
+          <h4>2× Mazda CX-50</h4>
+          <p>Aluguel Miami<br>23/06 → 29/06</p>
+        </div>
+        <div class="accomm-price">
+          <span class="price-amount">6 dias</span>
+          <span class="price-label">2 carros</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ─── HOUSTON ─── -->
+<section id="houston">
+  <div class="city-block city-houston">
+    <div class="city-header">
+      <span class="city-emoji">🤠</span>
+      <div class="city-info">
+        <h2>Houston</h2>
+        <p>Texas · NRG Stadium — Oitavas de Final!</p>
+      </div>
+      <div class="city-dates">
+        <div class="date-range">29 Jun</div>
+        <div class="nights">1 noite</div>
+      </div>
+    </div>
+
+    <div class="flight-card fade-in">
+      <div class="flight-route">
+        <div><div class="airport-code">MIA</div><div style="font-size:.7rem;color:#888">Miami</div></div>
+        <div class="flight-line">
+          <div class="flight-line-bar"></div>
+          <div class="flight-duration">~2h45</div>
+        </div>
+        <div><div class="airport-code">IAH</div><div style="font-size:.7rem;color:#888">Houston</div></div>
+      </div>
+      <div class="flight-times">
+        <div class="flight-time-item"><div class="flight-time">07h00</div><div class="flight-time-label">Partida 29/06</div></div>
+        <div class="flight-time-item"><div class="flight-time">08h46</div><div class="flight-time-label">Chegada 29/06</div></div>
+      </div>
+      <div style="font-size:.8rem;color:#888">Galera toda</div>
+    </div>
+
+    <!-- Jogo destaque -->
+    <div class="game-highlight fade-in">
+      <div class="game-score-area">
+        <div class="team">
+          <div class="team-flag">🇧🇷</div>
+          <div class="team-name">Brasil</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="team">
+          <div class="team-flag">🌍</div>
+          <div class="team-name">2F</div>
+        </div>
+      </div>
+      <div class="game-details">
+        <h3>Brasil — Oitavas de Final (M76)</h3>
+        <div class="game-meta">
+          <span class="game-meta-item">📅 29 de junho, 12h</span>
+          <span class="game-meta-item">🏟️ NRG Stadium, Houston</span>
+          <span class="game-meta-item">🚗 40 min do aeroporto</span>
+        </div>
+        <div class="tickets-badge">🎟️ 9 ingressos — CAT 1 — Os melhores assentos!</div>
+      </div>
+    </div>
+
+    <div class="days-grid">
+      <div class="day-card game-day fade-in">
+        <div class="day-number">Dia 12 · 29/06/2026</div>
+        <div class="day-title">JOGO! Brasil — Oitavas</div>
+        <ul class="activity-list">
+          <li><span class="icon">✈️</span> Voo MIA→IAH: 07h00 → 08h46</li>
+          <li><span class="icon">🚗</span> Retirar Toyota Camry às 11h (tentar antes!)</li>
+          <li><span class="icon">⚽</span> 12h — Brasil × 2F no NRG Stadium</li>
+          <li><span class="icon">🏨</span> Check-in Airbnb: 3012 Markle Dr (16h)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accommodation-row fade-in">
+      <div class="accomm-card">
+        <div class="accomm-icon">🏠</div>
+        <div class="accomm-info">
+          <h4>Airbnb Houston</h4>
+          <p>3012 Markle Dr, Houston<br>Check-in: 16h · 1 noite</p>
+        </div>
+        <div class="accomm-price">
+          <span class="price-amount">R$287</span>
+          <span class="price-label">por pessoa</span>
+        </div>
+      </div>
+      <div class="accomm-card">
+        <div class="accomm-icon">🚗</div>
+        <div class="accomm-info">
+          <h4>2× Toyota Camry</h4>
+          <p>Houston → Miami Road Trip<br>29/06 → 04/07</p>
+        </div>
+        <div class="accomm-price">
+          <span class="price-amount">5 dias</span>
+          <span class="price-label">road trip</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ROAD TRIP ─── -->
+<div class="section-alt">
+<section id="roadtrip" style="padding:0">
+  <div class="section-header" style="margin-top:0;padding-top:2rem">
+    <span class="section-icon">🚘</span>
+    <h2 class="section-title">Road <span>Trip</span></h2>
+  </div>
+  <div class="section-divider"></div>
+
+  <div class="road-trip-banner fade-in">
+    <div class="road-trip-icon">🚘</div>
+    <div class="road-trip-info">
+      <h3>Houston → Nova Orleans → Tallahassee → Miami</h3>
+      <p>Dois Toyota Camry, muita estrada e muita história pelos EUA</p>
+      <div class="road-trip-stops">
+        <span class="stop-badge">🤠 Houston</span>
+        <span class="stop-arrow">→</span>
+        <span class="stop-badge">🎷 Nova Orleans</span>
+        <span class="stop-arrow">→</span>
+        <span class="stop-badge">🌿 Tallahassee</span>
+        <span class="stop-arrow">→</span>
+        <span class="stop-badge">🌴 Miami</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="days-grid">
+    <div class="day-card travel-day fade-in city-norleans">
+      <div class="day-number">Dia 13 · 30/06/2026</div>
+      <div class="day-title">Houston → Nova Orleans 🎷</div>
+      <ul class="activity-list">
+        <li><span class="icon">🚘</span> Saída de Houston às 10h da manhã</li>
+        <li><span class="icon">🛣️</span> ~4h de estrada</li>
+        <li><span class="icon">📍</span> Chegada em New Orleans ~14h</li>
+        <li><span class="icon">🏨</span> Check-in 16h: Condos perto de Canal & Bourbon St</li>
+        <li><span class="icon">🎷</span> Bourbon Street à noite!</li>
+      </ul>
+    </div>
+    <div class="day-card travel-day fade-in">
+      <div class="day-number">Dia 14 · 01/07/2026</div>
+      <div class="day-title">Nova Orleans → Tallahassee 🌿</div>
+      <ul class="activity-list">
+        <li><span class="icon">🚘</span> ~6h de estrada</li>
+        <li><span class="icon">🏨</span> Check-in 16h: 717 N Calhoun St</li>
+        <li><span class="icon">🌙</span> Noite em Tallahassee</li>
+      </ul>
+    </div>
+    <div class="day-card travel-day fade-in">
+      <div class="day-number">Dia 15 · 02/07/2026</div>
+      <div class="day-title">Tallahassee → Miami 🌴</div>
+      <ul class="activity-list">
+        <li><span class="icon">🚘</span> ~7h de estrada — últimas horas de road trip!</li>
+        <li><span class="icon">🏨</span> Check-in 16h: Booking Miami — 2821 SW 36th Ct</li>
+      </ul>
+    </div>
+    <div class="day-card fade-in">
+      <div class="day-number">Dia 16 · 03/07/2026</div>
+      <div class="day-title">Livre em Miami 🏟️</div>
+      <ul class="activity-list">
+        <li><span class="icon">🌴</span> Último dia inteiro em Miami</li>
+        <li><span class="icon">🏟️</span> 18h — Argentina × Espanha/Uruguai no Hard Rock Stadium</li>
+        <li><span class="icon">✈️</span> Iago: parte às 20h25 (MIA→GRU)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Hospedagens Road Trip -->
+  <div class="accommodation-row" style="margin-top:1.5rem">
+    <div class="accomm-card fade-in">
+      <div class="accomm-icon">🎷</div>
+      <div class="accomm-info">
+        <h4>Airbnb Nova Orleans</h4>
+        <p>Penthouses/Condos perto de Canal & Bourbon St<br>30/06 → 01/07 · 1 noite</p>
+      </div>
+      <div class="accomm-price">
+        <span class="price-amount">R$339</span>
+        <span class="price-label">por pessoa</span>
+      </div>
+    </div>
+    <div class="accomm-card fade-in">
+      <div class="accomm-icon">🌿</div>
+      <div class="accomm-info">
+        <h4>Airbnb Tallahassee</h4>
+        <p>717 N Calhoun St<br>01/07 → 02/07 · 1 noite</p>
+      </div>
+      <div class="accomm-price">
+        <span class="price-amount">R$283</span>
+        <span class="price-label">por pessoa</span>
+      </div>
+    </div>
+    <div class="accomm-card fade-in">
+      <div class="accomm-icon">🏨</div>
+      <div class="accomm-info">
+        <h4>Booking Miami (noite 1)</h4>
+        <p>2821 SW 36th Ct, Miami FL<br>02/07 → 03/07</p>
+      </div>
+      <div class="accomm-price">
+        <span class="price-amount">R$158</span>
+        <span class="price-label">por pessoa</span>
+      </div>
+    </div>
+    <div class="accomm-card fade-in">
+      <div class="accomm-icon">🏨</div>
+      <div class="accomm-info">
+        <h4>Booking Miami (noite 2)</h4>
+        <p>2821 SW 36th Ct, Miami FL<br>03/07 → 04/07</p>
+      </div>
+      <div class="accomm-price">
+        <span class="price-amount">R$179</span>
+        <span class="price-label">por pessoa</span>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ─── RETORNO ─── -->
+<section id="retorno">
+  <div class="city-block city-retorno">
+    <div class="city-header">
+      <span class="city-emoji">🏠</span>
+      <div class="city-info">
+        <h2>Retorno ao Brasil</h2>
+        <p>4 de julho de 2026 · De volta pra casa!</p>
+      </div>
+      <div class="city-dates">
+        <div class="date-range">04/07</div>
+        <div class="nights">Dia de Volta</div>
+      </div>
+    </div>
+
+    <div class="days-grid">
+      <div class="day-card travel-day fade-in">
+        <div class="day-number">Matheus</div>
+        <div class="day-title">MIA → GRU · Cedo 🌅</div>
+        <ul class="activity-list">
+          <li><span class="icon">🚗</span> Devolver carro: máximo até 11h no aeroporto</li>
+          <li><span class="icon">✈️</span> Partida: 10h40 MIA</li>
+          <li><span class="icon">🇧🇷</span> Chegada: 20h00 GRU</li>
+        </ul>
+      </div>
+      <div class="day-card travel-day fade-in">
+        <div class="day-number">Léo · Gado · Caio · Pimba · Rapha</div>
+        <div class="day-title">MIA → GRU · Noite ✈️</div>
+        <ul class="activity-list">
+          <li><span class="icon">✈️</span> Partida: 19h55 MIA</li>
+          <li><span class="icon">🇧🇷</span> Chegada: 05h20 GRU</li>
+        </ul>
+      </div>
+      <div class="day-card travel-day fade-in">
+        <div class="day-number">Sola · Zé</div>
+        <div class="day-title">MIA → GRU · Noite ✈️</div>
+        <ul class="activity-list">
+          <li><span class="icon">✈️</span> Partida: 20h25 MIA</li>
+          <li><span class="icon">🇧🇷</span> Chegada: 05h40 GRU</li>
+        </ul>
+      </div>
+      <div class="day-card travel-day fade-in">
+        <div class="day-number">Iago</div>
+        <div class="day-title">MIA → GRU · Dia anterior 03/07</div>
+        <ul class="activity-list">
+          <li><span class="icon">✈️</span> Partida: 20h25 MIA em 03/07</li>
+          <li><span class="icon">🇧🇷</span> Chegada: 05h20 GRU em 04/07</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DICAS ─── -->
+<div class="section-alt">
+<section id="dicas" style="padding:2rem 0">
+  <div class="section-header">
+    <span class="section-icon">💡</span>
+    <h2 class="section-title">Dicas <span>Importantes</span></h2>
+  </div>
+  <div class="section-divider"></div>
+
+  <div class="tips-grid">
+    <div class="tip-card fade-in">
+      <div class="tip-icon">🧳</div>
+      <div class="tip-title">Luggage Hero (28/06)</div>
+      <div class="tip-text">Levar malas ao LuggageHero — First Street Metromover Station — antes das 22h do dia 28/06 para o voo cedo de Houston no dia 29.</div>
+    </div>
+    <div class="tip-card fade-in">
+      <div class="tip-icon">🚗</div>
+      <div class="tip-title">Devolver Carros</div>
+      <div class="tip-text">Toyota Camry e Chrysler Pacífica: devolver até 10h em NY no dia 20/06. Carros Houston→Miami: máximo até 11h no aeroporto de Miami no dia 04/07.</div>
+    </div>
+    <div class="tip-card fade-in">
+      <div class="tip-icon">🎟️</div>
+      <div class="tip-title">Ingressos</div>
+      <div class="tip-text">Brasil × Haiti: 10 ingressos (2 CAT2 + 8 CAT3). Brasil × 2F (oitavas): 9 ingressos CAT1. Verificar setores e assentos com antecedência.</div>
+    </div>
+    <div class="tip-card fade-in">
+      <div class="tip-icon">🛡️</div>
+      <div class="tip-title">Seguro Viagem</div>
+      <div class="tip-text">Seguro contratado (Pimba). Verificar cobertura médica nos EUA — recomendado para todos do grupo.</div>
+    </div>
+    <div class="tip-card fade-in">
+      <div class="tip-icon">💵</div>
+      <div class="tip-title">Gastos Compartilhados</div>
+      <div class="tip-text">Planilha de gastos compartilhados já criada! Usar para rastrear despesas comuns de combustível, alimentação e pedágios no road trip.</div>
+    </div>
+    <div class="tip-card fade-in">
+      <div class="tip-icon">📱</div>
+      <div class="tip-title">Check-in Online</div>
+      <div class="tip-text">Fazer check-in online 24h antes de cada voo. Especialmente importante nos voos domésticos MIA→IAH e JFK→MIA.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ─── MALAS ─── -->
+<section id="malas">
+  <div class="section-header">
+    <span class="section-icon">🧳</span>
+    <h2 class="section-title">Montagem de <span>Malas</span></h2>
+  </div>
+  <div class="section-divider"></div>
+
+  <div class="packing-categories">
+    <div class="packing-card fade-in">
+      <h4>👕 Roupas</h4>
+      <ul>
+        <li>Camisas casuais (5-7)</li>
+        <li>Calças/bermudas (3-4)</li>
+        <li>Camiseta Brasil (obrigatório! ⚽)</li>
+        <li>Roupa de banho (2-3)</li>
+        <li>Roupas de treino</li>
+        <li>Jaqueta/agasalho</li>
+        <li>Roupa social (1 conjunto)</li>
+      </ul>
+    </div>
+    <div class="packing-card fade-in">
+      <h4>👟 Calçados</h4>
+      <ul>
+        <li>Tênis principal (confortável)</li>
+        <li>Sandália/chinelo</li>
+        <li>Sapato social</li>
+        <li>Chinelo de borracha</li>
+      </ul>
+    </div>
+    <div class="packing-card fade-in">
+      <h4>💊 Saúde & Higiene</h4>
+      <ul>
+        <li>Protetor solar (indispensável!)</li>
+        <li>Remédios pessoais</li>
+        <li>Kit primeiros socorros</li>
+        <li>Repelente</li>
+        <li>Hidratante labial</li>
+        <li>Seguro viagem (confirmar)</li>
+      </ul>
+    </div>
+    <div class="packing-card fade-in">
+      <h4>📱 Eletrônicos</h4>
+      <ul>
+        <li>Carregador celular + cabo</li>
+        <li>Adaptador de tomada EUA</li>
+        <li>Power bank</li>
+        <li>Fone de ouvido</li>
+        <li>Câmera / GoPro</li>
+        <li>Cartão SD extra</li>
+      </ul>
+    </div>
+    <div class="packing-card fade-in">
+      <h4>📄 Documentos</h4>
+      <ul>
+        <li>Passaporte (validade +6 meses)</li>
+        <li>ESTA / Visto EUA</li>
+        <li>Cartão de crédito internacional</li>
+        <li>Cópia dos ingressos</li>
+        <li>Confirmações Airbnb/Hotel</li>
+        <li>Passagens impressas</li>
+      </ul>
+    </div>
+    <div class="packing-card fade-in">
+      <h4>🏟️ Itens Jogo</h4>
+      <ul>
+        <li>Camisa da Seleção Brasileira</li>
+        <li>Bandeirinha do Brasil</li>
+        <li>Protetor solar para o estádio</li>
+        <li>Ingressos físicos/digitais</li>
+        <li>Identidade/passaporte</li>
+        <li>Câmera pequena</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-flag">🇧🇷⚽🇧🇷</div>
+  <p><strong>Copa do Mundo 2026 — A Galera</strong></p>
+  <p>18 de Junho → 4 de Julho · Filadélfia · Nova York · Miami · Houston · Nova Orleans · Tallahassee</p>
+  <p style="margin-top:1rem;color:#333">3 jogos do Brasil · 6 cidades · 17 dias · 10 amigos · memórias pra vida toda</p>
+</footer>
+
+<script>
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Active nav on scroll
+const sections = document.querySelectorAll('section[id], div[id="topo"]');
+const navItems = document.querySelectorAll('.nav-item');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.getBoundingClientRect().top;
+    if (top <= 100) current = s.id;
+  });
+  navItems.forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('href') === '#' + current) {
+      item.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>
