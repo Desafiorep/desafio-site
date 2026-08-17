@@ -4,12 +4,18 @@
  * Roda ANTES de qualquer arquivo estático ser servido, então o HTML do painel
  * nunca chega a quem não tem sessão válida. Sem cookie assinado, o visitante é
  * mandado para /login.
+ *
+ * Sem dependências de pacote de propósito: o site é estático e não tem etapa de
+ * build, então nada aqui pode depender de `npm install` ter rodado.
  */
-import { next } from '@vercel/edge';
-
 export const config = { matcher: ['/painel', '/painel/:path*'] };
 
 const COOKIE = 'painel_sessao';
+
+/** Deixa a requisição seguir para o arquivo estático (o mesmo que @vercel/edge faz). */
+function seguir() {
+  return new Response(null, { headers: { 'x-middleware-next': '1' } });
+}
 
 function base64urlParaBytes(s) {
   const b64 = s.replace(/-/g, '+').replace(/_/g, '/');
@@ -55,7 +61,7 @@ export default async function middleware(request) {
   );
 
   if (await tokenValido(cookies[COOKIE], process.env.PAINEL_SECRET)) {
-    return next();
+    return seguir();
   }
 
   const url = new URL(request.url);

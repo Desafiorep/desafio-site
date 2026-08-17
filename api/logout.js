@@ -1,5 +1,5 @@
 /** Encerra a sessão do painel, apagando o cookie. */
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
   res.setHeader('Set-Cookie', [
     'painel_sessao=',
     'Path=/',
@@ -10,4 +10,4 @@ export default function handler(req, res) {
   ].join('; '));
   res.writeHead(302, { Location: '/' });
   res.end();
-}
+};

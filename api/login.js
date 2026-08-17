@@ -1,11 +1,14 @@
 /**
  * Recebe a senha da equipe e devolve um cookie de sessão assinado.
  *
+ * CommonJS de propósito: o site não tem package.json, então arquivos .js são
+ * tratados como CommonJS pelo runtime Node da Vercel.
+ *
  * A senha e o segredo ficam em variáveis de ambiente da Vercel — nunca no
  * repositório. A comparação é feita em tempo constante para não vazar pistas
  * sobre a senha pelo tempo de resposta.
  */
-import crypto from 'node:crypto';
+const crypto = require('node:crypto');
 
 const COOKIE = 'painel_sessao';
 const DIAS_DE_SESSAO = 30;
@@ -21,7 +24,7 @@ function comparaSeguro(a, b) {
   return crypto.timingSafeEqual(ba, bb);
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ erro: 'Método não permitido.' });
@@ -63,4 +66,4 @@ export default async function handler(req, res) {
   ].join('; '));
 
   return res.status(200).json({ ok: true });
-}
+};
