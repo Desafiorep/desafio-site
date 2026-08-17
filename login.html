@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Acesso ao Painel — Desafio Representações</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy:#0B2B37; --navy-900:#114355; --sky-50:#EEF7FF; --sky-300:#91CAFF; --sky-500:#308FE8;
+    --neutral-0:#FFFFFF; --neutral-200:#D6DCE1; --neutral-500:#818E98; --neutral-700:#4F616D;
+    --neutral-1000:#14232E; --red-700:#9B2A22;
+    --font:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:var(--sky-50); color:var(--neutral-1000); font:500 15px/1.5 var(--font); padding:24px; }
+  .cartao { width:100%; max-width:420px; background:var(--neutral-0); border:1px solid var(--neutral-200);
+    border-radius:16px; padding:40px 32px; text-align:center;
+    box-shadow:0 2px 6px rgba(11,43,55,.06), 0 0 1px rgba(11,43,55,.12); }
+  .marca { display:block; height:30px; margin:0 auto 28px; color:var(--navy); }
+  h1 { font-size:22px; line-height:30px; font-weight:700; letter-spacing:-.01em; margin:0 0 6px; }
+  p.ajuda { margin:0 0 24px; color:var(--neutral-700); font-size:14px; line-height:20px; }
+  label { display:block; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--neutral-700); margin-bottom:6px; }
+  input { width:100%; height:44px; padding:0 14px; border-radius:8px; border:1px solid var(--neutral-500);
+    background:var(--neutral-0); color:var(--neutral-1000); font:600 16px var(--font); }
+  input:focus { outline:none; border-color:var(--sky-500);
+    box-shadow:0 0 0 2px var(--neutral-0), 0 0 0 4px var(--sky-500); }
+  button { width:100%; height:44px; margin-top:16px; border:0; border-radius:8px; cursor:pointer;
+    background:var(--navy); color:#fff; font:600 15px var(--font);
+    transition:background 150ms cubic-bezier(.16,1,.3,1); }
+  button:hover { background:var(--navy-900); }
+  button[disabled] { opacity:.6; cursor:progress; }
+  .erro { min-height:20px; margin-top:12px; color:var(--red-700); font-size:13px; font-weight:600; }
+  .rodape { margin-top:24px; font-size:12px; color:var(--neutral-500); }
+  .rodape a { color:var(--neutral-700); }
+</style>
+</head>
+<body>
+  <main class="cartao">
+    <!-- marca da Desafio (mesmo SVG do painel; herda a cor via currentColor) -->
+    <svg class="marca" role="img" aria-label="Desafio Representações" viewBox="0 0 630 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#dslogo_clip0_2058_37)">
+<path d="M174.04 11.99H170.85C165.49 11.99 161.14 7.64 161.14 2.28H203.58C221.89 2.28 235.84 6.79 245.46 15.8C255.07 24.81 259.88 37.87 259.88 54.98C259.88 72.09 255.07 85.14 245.46 94.16C235.84 103.17 221.88 107.68 203.58 107.68H161.14C161.14 102.32 165.49 97.97 170.85 97.97H174.04V11.99ZM235.68 87.71C243.4 80.87 247.26 69.96 247.26 54.98C247.26 40 243.4 29.09 235.68 22.25C227.96 15.41 216.8 11.99 202.19 11.99H186.38V97.97H202.19C216.8 97.97 227.96 94.55 235.68 87.71Z" fill="currentColor"/>
+<path d="M304.82 109.9C296.96 109.9 290.3 108.35 284.85 105.25C279.39 102.15 275.23 97.85 272.37 92.35C269.5 86.85 268.07 80.59 268.07 73.56C268.07 66.16 269.48 59.76 272.3 54.35C275.12 48.94 279.07 44.76 284.16 41.8C289.25 38.84 295.21 37.36 302.05 37.36C311.48 37.36 319.04 40.25 324.72 46.03C330.41 51.81 333.25 59.88 333.25 70.23C333.25 71.06 333.23 72.08 333.18 73.28C333.13 74.48 333.02 75.45 332.83 76.19H279.58C279.95 83.22 282.37 88.95 286.86 93.39C291.34 97.83 297.61 100.05 305.65 100.05C310.64 100.05 314.85 99.22 318.27 97.55C319 97.19 319.69 96.82 320.35 96.43C324.35 94.07 329.47 94.89 332.69 98.24C330.19 101.57 326.5 104.34 321.6 106.56C316.7 108.78 311.11 109.89 304.82 109.89V109.9ZM302.05 46.94C295.85 46.94 290.75 48.88 286.72 52.76C282.7 56.64 280.32 61.59 279.58 67.6H322.29C321.92 61.59 319.98 56.64 316.47 52.76C312.96 48.88 308.15 46.94 302.05 46.94Z" fill="currentColor"/>
+<path d="M341.631 84.11H350.641V85.22C350.641 89.93 352.561 93.75 356.391 96.66C360.231 99.57 365.431 101.03 371.991 101.03C376.891 101.03 380.771 100.2 383.641 98.53C386.501 96.87 387.941 94.28 387.941 90.76C387.941 87.24 386.581 84.5 383.851 82.79C381.121 81.08 376.431 79.67 369.771 78.56L363.811 77.59C355.861 76.2 350.201 73.73 346.821 70.17C343.451 66.61 341.761 62.24 341.761 57.07C341.761 50.97 344.071 46.16 348.691 42.65C353.311 39.14 359.231 37.38 366.441 37.38C371.251 37.38 375.431 38.17 378.991 39.74C382.551 41.31 385.301 43.48 387.241 46.26V39.6C392.061 39.6 395.971 43.51 395.971 48.33V62.75H387.241V61.23C387.241 56.61 385.601 52.93 382.321 50.2C379.041 47.47 374.441 46.11 368.521 46.11C363.991 46.11 360.241 47.01 357.291 48.81C354.331 50.61 352.851 53.27 352.851 56.78C352.851 60.02 354.101 62.49 356.601 64.2C359.101 65.91 363.531 67.32 369.911 68.43L377.681 69.68C385.351 70.98 390.831 73.31 394.111 76.68C397.391 80.06 399.031 84.56 399.031 90.2C399.031 96.58 396.811 101.46 392.371 104.83C387.931 108.2 381.871 109.89 374.201 109.89C369.021 109.89 364.311 109.03 360.051 107.32C355.801 105.61 352.611 103.09 350.481 99.76V107.66C345.581 107.66 341.601 103.69 341.601 98.78V84.08L341.631 84.11Z" fill="currentColor"/>
+<path d="M475.09 48.88V98.39V107.68H464.41V95.06C462.01 99.78 458.56 103.43 454.08 106.02C449.59 108.61 444.26 109.9 438.06 109.9C431.5 109.9 425.67 108.4 420.59 105.39C415.5 102.39 411.51 98.16 408.6 92.7C405.69 87.25 404.23 80.87 404.23 73.56C404.23 66.25 405.66 60.04 408.53 54.63C411.39 49.22 415.4 44.99 420.53 41.94C425.66 38.89 431.55 37.36 438.21 37.36C444.31 37.36 449.56 38.63 453.95 41.17C458.34 43.71 461.69 47.16 464 51.5V39.57C469.13 39.57 475.1 43.73 475.1 48.86M457.96 54.71C453.57 49.9 447.63 47.5 440.14 47.5C432.65 47.5 426.69 49.91 422.25 54.71C417.81 59.52 415.59 65.8 415.59 73.57C415.59 81.34 417.81 87.65 422.25 92.5C426.69 97.35 432.65 99.78 440.14 99.78C447.63 99.78 453.57 97.35 457.96 92.5C462.35 87.65 464.55 81.34 464.55 73.57C464.55 65.8 462.35 59.52 457.96 54.71Z" fill="currentColor"/>
+<path d="M493.41 48.88H483.29C483.29 43.75 487.45 39.59 492.58 39.59H493.41V25.75C493.41 17.52 495.4 11.19 499.37 6.75C503.34 2.31 508.75 0.0899963 515.6 0.0899963C518 0.0899963 520.29 0.319996 522.47 0.779996C524.64 1.24 526.47 1.98 527.95 3L524.9 11.6C524.07 11.14 523.03 10.75 521.78 10.42C520.53 10.1 519.12 9.93 517.55 9.93C513.48 9.93 510.29 11.34 507.98 14.16C505.67 16.98 504.51 21.12 504.51 26.57V39.58H524.2V48.87H504.51V98.38V107.67H493.42V98.38V48.87L493.41 48.88Z" fill="currentColor"/>
+<path d="M548.88 98.39V107.68H537.81V98.39H537.79V48.88H519.76V39.59H542.23C545.9 39.59 548.88 42.57 548.88 46.24V98.39Z" fill="currentColor"/>
+<path d="M534.94 29.03C533.5 27.46 532.79 25.52 532.79 23.21C532.79 20.9 533.51 18.98 534.94 17.46C536.37 15.94 538.43 15.17 541.11 15.17C543.79 15.17 545.85 15.93 547.28 17.46C548.71 18.99 549.43 20.91 549.43 23.21C549.43 25.51 548.71 27.46 547.28 29.03C545.85 30.6 543.79 31.39 541.11 31.39C538.43 31.39 536.37 30.61 534.94 29.03Z" fill="currentColor"/>
+<path d="M561.65 92.57C558.6 87.12 557.07 80.78 557.07 73.57C557.07 66.36 558.59 60.03 561.65 54.57C564.7 49.12 568.95 44.89 574.41 41.88C579.86 38.88 586.24 37.37 593.55 37.37C600.86 37.37 607.21 38.87 612.62 41.88C618.03 44.89 622.26 49.12 625.31 54.57C628.36 60.03 629.88 66.36 629.88 73.57C629.88 80.78 628.36 87.12 625.31 92.57C622.26 98.03 618.03 102.28 612.62 105.33C607.21 108.38 600.85 109.91 593.55 109.91C586.25 109.91 579.87 108.39 574.41 105.33C568.95 102.28 564.7 98.03 561.65 92.57ZM618.51 73.57C618.51 65.71 616.24 59.4 611.71 54.64C607.18 49.88 601.12 47.5 593.54 47.5C585.96 47.5 579.88 49.88 575.3 54.64C570.72 59.4 568.43 65.71 568.43 73.57C568.43 81.43 570.72 87.76 575.3 92.57C579.88 97.38 585.95 99.78 593.54 99.78C601.13 99.78 607.18 97.38 611.71 92.57C616.24 87.76 618.51 81.43 618.51 73.57Z" fill="currentColor"/>
+<path d="M95.2298 107.84L114.65 0L108.26 9.48L90.5498 107.82L95.2298 107.84Z" fill="currentColor"/>
+<path d="M49.58 89.9H0L29.97 57.9L11.17 25.9H67.77L57.8 82.98C57.1 86.98 53.63 89.9 49.57 89.9H49.58Z" fill="currentColor"/>
+<path d="M107.46 13.92H98.7002L114.65 0" fill="currentColor"/>
+<path d="M91.2498 82.28H47.3198L56.7998 26.88C57.6498 21.91 61.9498 18.28 66.9898 18.28H102.2L91.2498 82.28Z" fill="currentColor"/>
+</g>
+<defs>
+<clipPath id="dslogo_clip0_2058_37">
+<rect width="629.88" height="109.9" fill="currentColor"/>
+</clipPath>
+</defs>
+</svg>
+    <h1>Painel Comercial</h1>
+    <p class="ajuda">Área interna da equipe. Digite a senha para entrar.</p>
+
+    <form id="form" autocomplete="off">
+      <label for="senha">Senha de acesso</label>
+      <input id="senha" name="senha" type="password" autocomplete="current-password"
+             required autofocus aria-describedby="erro" />
+      <button type="submit" id="botao">Entrar</button>
+      <div class="erro" id="erro" role="alert"></div>
+    </form>
+
+    <div class="rodape"><a href="/">Voltar para o site</a></div>
+  </main>
+
+<script>
+  const form = document.getElementById('form');
+  const campo = document.getElementById('senha');
+  const botao = document.getElementById('botao');
+  const erro = document.getElementById('erro');
+
+  // para onde voltar depois de entrar (o middleware manda ?de=/painel)
+  const destino = new URLSearchParams(location.search).get('de') || '/painel';
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    erro.textContent = '';
+    botao.disabled = true;
+    botao.textContent = 'Entrando…';
+    try {
+      const r = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ senha: campo.value }),
+      });
+      if (r.ok) {
+        // caminho relativo apenas, para não virar redirecionamento aberto
+        location.href = destino.startsWith('/') ? destino : '/painel';
+        return;
+      }
+      const dados = await r.json().catch(() => null);
+      erro.textContent = (dados && dados.erro)
+        ? dados.erro
+        : `Falha ao entrar (código ${r.status}). Avise quem cuida do painel.`;
+    } catch {
+      erro.textContent = 'Falha de conexão. Verifique a internet e tente de novo.';
+    }
+    campo.value = '';
+    campo.focus();
+    botao.disabled = false;
+    botao.textContent = 'Entrar';
+  });
+</script>
+</body>
+</html>
