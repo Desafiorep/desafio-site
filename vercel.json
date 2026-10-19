@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/login", "destination": "/login.html" },
-    { "source": "/painel", "destination": "/painel/index.html" }
+    { "source": "/painel", "destination": "/painel/index.html" },
+    { "source": "/campanhas3m-alucel", "destination": "/campanhas3m-alucel/index.html" }
   ]
 }
