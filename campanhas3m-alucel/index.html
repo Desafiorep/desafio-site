@@ -207,7 +207,8 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direc
       <div class="info"><span class="cat">${esc(opts.campanha ? opts.campanha + ' · ' + x.cat : x.cat)}</span><span class="nome">${esc(x.nome)}</span><span class="meta">${meta}</span></div>
       <div class="preco"><span>Tabela SDA</span><b>${esc(x.preco_txt)}</b></div>
       ${corpo}
-      ${x.somada ? '<span class="nota">Desconto somado de duas campanhas da 3M.</span>' : ''}
+      ${x.somada ? `<span class="nota">Desconto somado de duas campanhas da 3M.${x.depois_txt ? ' ' + esc(x.depois_txt) + '.' : ''}</span>` : ''}
+      ${!opts.grade && x.validade_txt ? `<span class="nota">Válida até ${esc(x.validade_txt)}</span>` : ''}
       ${opts.abrir ? `<button type="button" class="pill" data-h="${opts.abrir}">Abrir ${esc(opts.campanha)}</button>` : ''}
     </article>`;
   }
@@ -227,7 +228,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direc
       <div class="cab"><span class="eyebrow">Promoções por item · segurança e empacotamento</span><h2>Os itens que vocês mais compram, com desconto próprio</h2><p>Cada item tem a sua própria faixa: o desconto vale a partir da quantidade indicada, no mesmo pedido.</p></div>
       ${chips('seg', d.cats.seg, d.seguranca.concat(d.similares_seg))}
       ${cards.length ? `<div class="grade">${cards.map((x) => cardItem(x, {})).join('')}</div>` : '<div class="aviso">Nenhum item já comprado nesta categoria.</div>'}
-      ${nSim ? `<div style="display:flex;flex-direction:column;gap:12px"><h3 style="font-size:18px">Da mesma linha, também em campanha (${nSim})</h3><div class="grade">${sim.rows.map((x) => `<article class="mini"><div class="f">${foto(x)}</div><div class="info" style="min-width:0"><span class="cat">${esc(x.cat)}</span><span class="nome" style="font-size:14px">${esc(x.nome)}</span><span class="meta">${esc(x.codigo)} · tabela ${esc(x.preco_txt)}</span><span class="t">${esc(x.tiers_resumo)}</span></div></article>`).join('')}</div>${sim.btn.replace('class="mais"', 'class="mais" style="padding:0"')}</div>` : ''}
+      ${nSim ? `<div style="display:flex;flex-direction:column;gap:12px"><h3 style="font-size:18px">Da mesma linha, também em campanha (${nSim})</h3><div class="grade">${sim.rows.map((x) => `<article class="mini"><div class="f">${foto(x)}</div><div class="info" style="min-width:0"><span class="cat">${esc(x.cat)}</span><span class="nome" style="font-size:14px">${esc(x.nome)}</span><span class="meta">${esc(x.codigo)} · tabela ${esc(x.preco_txt)}</span><span class="t">${esc(x.tiers_resumo)}</span>${x.validade_txt ? `<span class="meta">Válida até ${esc(x.validade_txt)}</span>` : ''}</div></article>`).join('')}</div>${sim.btn.replace('class="mais"', 'class="mais" style="padding:0"')}</div>` : ''}
     </section>`;
   }
 
@@ -239,7 +240,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direc
     const faixas = s.tiers.map((t) => `<span>${esc(t.min_txt)}+ un no mix · −${esc(t.pct_txt)}${t.detalhe ? ' (' + esc(t.detalhe) + ')' : ''}</span>`).join('') + (s.programacao ? '<span class="prog">Aceita programação</span>' : '');
     return `<section>
       <div class="cab"><span class="eyebrow">${esc(s.divisao_txt)} · sortimento</span><h2>${esc(s.promo)}</h2>
-        <p>Some a quantidade de qualquer item da lista no mesmo pedido: a faixa atingida vale para todos. A Alucel já comprou ${s.n_comprados} dos ${s.n_total} itens (${esc(s.valor_txt)} no histórico).</p>
+        <p>Some a quantidade de qualquer item da lista no mesmo pedido: a faixa atingida vale para todos. A Alucel já comprou ${s.n_comprados} dos ${s.n_total} itens (${esc(s.valor_txt)} no histórico).${s.validade_txt ? ` Válida até ${esc(s.validade_txt)}.` : ''}</p>
         <div class="faixas">${faixas}</div></div>
       ${chips(s.key, d.cats[s.key] || [], s.itens)}
       ${comprados.length ? `<div class="grade">${comprados.slice(0, 12).map((x) => cardItem(x, { grade: true })).join('')}</div>` : '<div class="aviso">Nenhum item já comprado nesta categoria.</div>'}
