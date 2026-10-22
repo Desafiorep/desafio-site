@@ -17,3 +17,5 @@ desktop.ini
 
 # Dependências
 node_modules/
+.vercel
+.env*
