@@ -3,6 +3,7 @@
     { "source": "/login", "destination": "/login.html" },
     { "source": "/painel", "destination": "/painel/index.html" },
     { "source": "/campanhas3m-alucel", "destination": "/campanhas3m-alucel/index.html" },
-    { "source": "/campanhas3m-paris", "destination": "/campanhas3m-paris/index.html" }
+    { "source": "/campanhas3m-paris", "destination": "/campanhas3m-paris/index.html" },
+    { "source": "/campanhas3m-leal", "destination": "/campanhas3m-leal/index.html" }
   ]
 }
