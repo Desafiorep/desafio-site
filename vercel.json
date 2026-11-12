@@ -9,6 +9,7 @@
     { "source": "/campanhas3m-silcon", "destination": "/campanhas3m-silcon/index.html" },
     { "source": "/campanhas3m-elepira", "destination": "/campanhas3m-elepira/index.html" },
     { "source": "/campanhas3m-nicolucci", "destination": "/campanhas3m-nicolucci/index.html" },
-    { "source": "/campanhas3m-vm", "destination": "/campanhas3m-vm/index.html" }
+    { "source": "/campanhas3m-vm", "destination": "/campanhas3m-vm/index.html" },
+    { "source": "/campanhas3m-ra", "destination": "/campanhas3m-ra/index.html" }
   ]
 }
