@@ -7,6 +7,8 @@
     { "source": "/campanhas3m-leal", "destination": "/campanhas3m-leal/index.html" },
     { "source": "/campanhas3m-papelplastico", "destination": "/campanhas3m-papelplastico/index.html" },
     { "source": "/campanhas3m-silcon", "destination": "/campanhas3m-silcon/index.html" },
-    { "source": "/campanhas3m-elepira", "destination": "/campanhas3m-elepira/index.html" }
+    { "source": "/campanhas3m-elepira", "destination": "/campanhas3m-elepira/index.html" },
+    { "source": "/campanhas3m-nicolucci", "destination": "/campanhas3m-nicolucci/index.html" },
+    { "source": "/campanhas3m-vm", "destination": "/campanhas3m-vm/index.html" }
   ]
 }
