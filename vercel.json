@@ -10,6 +10,16 @@
     { "source": "/campanhas3m-elepira", "destination": "/campanhas3m-elepira/index.html" },
     { "source": "/campanhas3m-nicolucci", "destination": "/campanhas3m-nicolucci/index.html" },
     { "source": "/campanhas3m-vm", "destination": "/campanhas3m-vm/index.html" },
-    { "source": "/campanhas3m-ra", "destination": "/campanhas3m-ra/index.html" }
+    { "source": "/campanhas3m-ra", "destination": "/campanhas3m-ra/index.html" },
+    { "source": "/luis-sola", "destination": "/luis-sola/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/luis-sola/contato.vcf",
+      "headers": [
+        { "key": "Content-Type", "value": "text/vcard; charset=utf-8" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"luis-fernando-sola.vcf\"" }
+      ]
+    }
   ]
 }
