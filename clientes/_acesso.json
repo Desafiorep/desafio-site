@@ -1,1 +1,47 @@
-{}
+{
+ "alucel": {
+  "iter": 100000,
+  "salt": "5ddbd58d2b9284526e8113f2f795fe0f",
+  "hash": "cdc00acbcbec5a23d5b40e87a3056a347f2afec1c5421df7553374d9940a0ae4"
+ },
+ "paris": {
+  "iter": 100000,
+  "salt": "f92ed7a6576dc24eb9747c4d8e5bfc25",
+  "hash": "cfcdcc30bf31a8ac22f661bf01c574c3325830620a97fb591b9836d74c03b1e0"
+ },
+ "leal": {
+  "iter": 100000,
+  "salt": "87b3a94fee74ce54155a4f1ad236e2d3",
+  "hash": "8bfa3900abc3fa4a8df9785f5f1754049777c83d3c5351c2a3c08a39595a7134"
+ },
+ "papelplastico": {
+  "iter": 100000,
+  "salt": "d897070576734c746cac0327458e07b7",
+  "hash": "d8e5b95d4b60ca1df49c73a669503bbd1ebfd7ee0b4866131821223a16890507"
+ },
+ "silcon": {
+  "iter": 100000,
+  "salt": "b2beac339de193906495097b80b5e95c",
+  "hash": "6a59a7f1e634f19a8172152a769d142745b5a257db2b2d8f72b5f27d9c593090"
+ },
+ "elepira": {
+  "iter": 100000,
+  "salt": "8665187632e44b8772a80472361bbede",
+  "hash": "afaef5ac1c4d1973319e6993053036e5abe795e53d9f9fdb35a8ee52fd6f9b11"
+ },
+ "nicolucci": {
+  "iter": 100000,
+  "salt": "615bd058cc52a846617beeeef8ca1551",
+  "hash": "42a33d2079103fed37895038f04bfba7b9ffe316e1c1f3b71e7e4512d50f78d4"
+ },
+ "vm": {
+  "iter": 100000,
+  "salt": "91ebaaf74ddead9e75a156474f7dcb91",
+  "hash": "79867749ae2c9ae98badfa64913207ed7c312ce76c808defe59fba3bd1d489d8"
+ },
+ "ra": {
+  "iter": 100000,
+  "salt": "adf06e668dccd9e524982234ca51b4fe",
+  "hash": "2d9b6d601a916debf193455a92f2750a230a6b0b58be7d71e38c4286c8b20003"
+ }
+}
