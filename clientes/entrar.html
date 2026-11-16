@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Seu painel — Desafio Representações</title>
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root { --navy:#0B2B37; --navy-900:#114355; --sky-50:#EEF7FF; --sky-500:#308FE8; --neutral-0:#FFFFFF;
+    --neutral-200:#D6DCE1; --neutral-500:#818E98; --neutral-700:#4F616D; --neutral-1000:#14232E; --red-700:#9B2A22;
+    --font:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:var(--sky-50); color:var(--neutral-1000); font:500 15px/1.5 var(--font); padding:24px; }
+  .cartao { width:100%; max-width:420px; background:var(--neutral-0); border:1px solid var(--neutral-200);
+    border-radius:16px; padding:40px 32px; text-align:center; box-shadow:0 2px 6px rgba(11,43,55,.06), 0 0 1px rgba(11,43,55,.12); }
+  .marca { font-weight:800; font-size:22px; letter-spacing:-.02em; color:var(--navy); margin:0 0 24px; }
+  h1 { font-size:22px; line-height:30px; font-weight:700; letter-spacing:-.01em; margin:0 0 6px; }
+  p.ajuda { margin:0 0 24px; color:var(--neutral-700); font-size:14px; line-height:20px; }
+  label { display:block; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; color:var(--neutral-700); margin-bottom:6px; }
+  input { width:100%; height:44px; padding:0 14px; border-radius:8px; border:1px solid var(--neutral-500); background:var(--neutral-0); color:var(--neutral-1000); font:600 16px var(--font); }
+  input:focus { outline:none; border-color:var(--sky-500); box-shadow:0 0 0 2px var(--neutral-0), 0 0 0 4px var(--sky-500); }
+  button { width:100%; height:44px; margin-top:16px; border:0; border-radius:8px; cursor:pointer; background:var(--navy); color:#fff; font:600 15px var(--font); }
+  button:hover { background:var(--navy-900); } button[disabled] { opacity:.6; cursor:progress; }
+  .erro { min-height:20px; margin-top:12px; color:var(--red-700); font-size:13px; font-weight:600; }
+  .rodape { margin-top:24px; font-size:12px; color:var(--neutral-500); }
+</style>
+</head>
+<body>
+  <main class="cartao">
+    <div class="marca">Desafio</div>
+    <h1 id="titulo">Seu painel 3M</h1>
+    <p class="ajuda" id="ajuda">Digite a senha que a Desafio enviou para a sua empresa.</p>
+    <form id="form" autocomplete="off">
+      <label for="senha">Senha de acesso</label>
+      <input id="senha" name="senha" type="password" autocomplete="current-password" required autofocus aria-describedby="erro" />
+      <button type="submit" id="botao">Entrar</button>
+      <div class="erro" id="erro" role="alert"></div>
+    </form>
+    <div class="rodape">Acesso exclusivo da sua empresa. Esqueceu a senha? Fale com o seu contato na Desafio.</div>
+  </main>
+<script>
+  const q = new URLSearchParams(location.search);
+  const slug = (q.get('c') || '').replace(/[^a-z0-9-]/g, '');
+  const destino = q.get('de') && q.get('de').startsWith('/clientes/') ? q.get('de') : '/clientes/' + slug;
+  const form = document.getElementById('form'), campo = document.getElementById('senha');
+  const botao = document.getElementById('botao'), erro = document.getElementById('erro');
+  if (!slug) { document.getElementById('ajuda').textContent = 'Use o endereço que a Desafio enviou para a sua empresa.'; form.hidden = true; }
+  if (q.get('sair')) {
+    // sair: pede ao servidor para apagar o cookie e volta para esta tela limpa
+    fetch('/api/portal-login', { method: 'DELETE' }).finally(() => { history.replaceState(null, '', '/clientes/entrar?c=' + slug); });
+  }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); erro.textContent = ''; botao.disabled = true;
+    try {
+      const r = await fetch('/api/portal-login', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, senha: campo.value }) });
+      if (r.ok) { location.href = destino; return; }
+      const d = await r.json().catch(() => ({}));
+      erro.textContent = d.erro || 'Senha incorreta.'; campo.select();
+    } catch { erro.textContent = 'Não foi possível entrar agora. Tente de novo em instantes.'; }
+    finally { botao.disabled = false; }
+  });
+</script>
+</body>
+</html>
